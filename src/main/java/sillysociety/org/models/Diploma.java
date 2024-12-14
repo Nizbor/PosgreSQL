@@ -16,7 +16,7 @@ public class Diploma {
     private Integer mark;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private sillysociety.org.filework.File file;
+    private sillysociety.org.models.File file;
 
     public Integer getId() {
         return id;
@@ -42,11 +42,11 @@ public class Diploma {
         this.mark = mark;
     }
 
-    public sillysociety.org.filework.File getFile() {
+    public sillysociety.org.models.File getFile() {
         return file;
     }
 
-    public void setFile(sillysociety.org.filework.File file) {
+    public void setFile(sillysociety.org.models.File file) {
         this.file = file;
     }
 

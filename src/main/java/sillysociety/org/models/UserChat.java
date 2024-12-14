@@ -5,27 +5,39 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "\"User_Chat\"")
 public class UserChat {
+    @Id
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "\"User_id\"", nullable = false)
-    private sillysociety.org.filework.User user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "\"Chat_id\"", nullable = false)
-    private sillysociety.org.filework.Chat chat;
+    private Chat chat;
 
-    public sillysociety.org.filework.User getUser() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public User getUser() {
         return user;
     }
 
-    public void setUser(sillysociety.org.filework.User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public sillysociety.org.filework.Chat getChat() {
+    public Chat getChat() {
         return chat;
     }
 
-    public void setChat(sillysociety.org.filework.Chat chat) {
+    public void setChat(Chat chat) {
         this.chat = chat;
     }
 

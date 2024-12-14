@@ -5,26 +5,38 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "\"Reaction_Message\"")
 public class ReactionMessage {
+    @Id
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "\"Reaction_id\"", nullable = false)
-    private sillysociety.org.filework.Reaction reaction;
+    private Reaction reaction;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private sillysociety.org.filework.Message message;
+    private Message message;
 
-    public sillysociety.org.filework.Reaction getReaction() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Reaction getReaction() {
         return reaction;
     }
 
-    public void setReaction(sillysociety.org.filework.Reaction reaction) {
+    public void setReaction(Reaction reaction) {
         this.reaction = reaction;
     }
 
-    public sillysociety.org.filework.Message getMessage() {
+    public Message getMessage() {
         return message;
     }
 
-    public void setMessage(sillysociety.org.filework.Message message) {
+    public void setMessage(Message message) {
         this.message = message;
     }
 

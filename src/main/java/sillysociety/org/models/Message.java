@@ -13,11 +13,11 @@ public class Message {
     @MapsId("chat")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "chat", nullable = false)
-    private sillysociety.org.filework.Chat chat;
+    private Chat chat;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "\"from\"")
-    private sillysociety.org.filework.User from;
+    private sillysociety.org.models.User from;
 
     @Column(name = "\"time\"", nullable = false)
     private LocalDate time;
@@ -33,19 +33,19 @@ public class Message {
         this.id = id;
     }
 
-    public sillysociety.org.filework.Chat getChat() {
+    public Chat getChat() {
         return chat;
     }
 
-    public void setChat(sillysociety.org.filework.Chat chat) {
+    public void setChat(Chat chat) {
         this.chat = chat;
     }
 
-    public sillysociety.org.filework.User getFrom() {
+    public sillysociety.org.models.User getFrom() {
         return from;
     }
 
-    public void setFrom(sillysociety.org.filework.User from) {
+    public void setFrom(sillysociety.org.models.User from) {
         this.from = from;
     }
 

@@ -1,4 +1,4 @@
-package sillysociety.org.filework;
+package sillysociety.org;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

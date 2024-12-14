@@ -14,7 +14,7 @@ public class File {
     @MapsId("author")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "author", nullable = false)
-    private sillysociety.org.filework.User author;
+    private sillysociety.org.models.User author;
 
     @Column(name = "name", nullable = false, length = Integer.MAX_VALUE)
     private String name;
@@ -44,11 +44,11 @@ public class File {
         this.id = id;
     }
 
-    public sillysociety.org.filework.User getAuthor() {
+    public sillysociety.org.models.User getAuthor() {
         return author;
     }
 
-    public void setAuthor(sillysociety.org.filework.User author) {
+    public void setAuthor(sillysociety.org.models.User author) {
         this.author = author;
     }
 

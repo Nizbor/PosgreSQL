@@ -5,27 +5,39 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "\"User_Role\"")
 public class UserRole {
+    @Id
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "\"User_id\"", nullable = false)
-    private sillysociety.org.filework.User user;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "\"Role_id\"", nullable = false)
-    private sillysociety.org.filework.Role role;
+    private Role role;
 
-    public sillysociety.org.filework.User getUser() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public User getUser() {
         return user;
     }
 
-    public void setUser(sillysociety.org.filework.User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public sillysociety.org.filework.Role getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(sillysociety.org.filework.Role role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

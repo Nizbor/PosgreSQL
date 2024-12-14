@@ -1,32 +1,41 @@
 package sillysociety.org.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "\"Message_File\"")
 public class MessageFile {
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private sillysociety.org.filework.Message message;
+    @Id
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private sillysociety.org.filework.File file;
+    private Message message;
 
-    public sillysociety.org.filework.Message getMessage() {
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private File file;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Message getMessage() {
         return message;
     }
 
-    public void setMessage(sillysociety.org.filework.Message message) {
+    public void setMessage(Message message) {
         this.message = message;
     }
 
-    public sillysociety.org.filework.File getFile() {
+    public File getFile() {
         return file;
     }
 
-    public void setFile(sillysociety.org.filework.File file) {
+    public void setFile(File file) {
         this.file = file;
     }
 
