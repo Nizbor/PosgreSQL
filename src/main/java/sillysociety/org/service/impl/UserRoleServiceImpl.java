@@ -36,4 +36,9 @@ public class UserRoleServiceImpl implements UserRoleService {
     public UserRole updateUserRole(UserRole userRole) {
         return userRoleRepository.save(userRole);
     }
+
+    @Override
+    public List<String> getRolesByUserId(Integer userId) {
+        return userRoleRepository.getRolesByUserId(userId);
+    }
 }

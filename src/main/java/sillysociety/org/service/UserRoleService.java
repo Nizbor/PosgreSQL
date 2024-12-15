@@ -11,5 +11,5 @@ public interface UserRoleService {
     List<UserRole> getAllUserRoles();
     UserRole updateUserRole(UserRole userRole);
 
-
+    List<String> getRolesByUserId(Integer userId);
 }
