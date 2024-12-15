@@ -60,4 +60,9 @@ public class MyUserDetails implements UserDetails {
 //        return UserDetails.super.isEnabled();
         return true;
     }
+
+    public Integer getId(){
+        return user.getId();
+    }
+
 }

@@ -36,6 +36,19 @@ public class File {
     @Column(name = "final", nullable = false)
     private Boolean finalField = false;
 
+    @Override
+    public String toString() {
+        return "FileResponse{" +
+                "id ='" + id + '\'' +
+                ", author='" + author + '\'' +
+                ", name='" + name + '\'' +
+                ", editDate='" + editDate + '\'' +
+                ", version='" + version + '\'' +
+                ", diploma='" + diploma + '\'' +
+                ", finalFiled=" + finalField +
+                '}';
+    }
+
     public FileId getId() {
         return id;
     }
