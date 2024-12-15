@@ -3,9 +3,7 @@ package sillysociety.org.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sillysociety.org.models.Role;
-import sillysociety.org.models.User;
 import sillysociety.org.service.RoleService;
-import sillysociety.org.service.UserService;
 
 import java.util.List;
 
@@ -19,14 +17,17 @@ public class RoleRestController {
     public Role add(@RequestBody Role role) {
         return roleService.addRole(role);
     }
+
     @GetMapping(path = "get")
     public List<Role> get() {
         return roleService.getAllRoles();
     }
+
     @PutMapping(path = "update")
     public Role update(@RequestBody Role role) {
         return roleService.updateRole(role);
     }
+
     @DeleteMapping(path = "delete")
     public void delete(@RequestBody Role role) {
         roleService.deleteRole(role);
