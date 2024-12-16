@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sillysociety.org.config.MyUserDetails;
 import sillysociety.org.models.User;
+import sillysociety.org.service.FileService;
 import sillysociety.org.service.UserService;
 
 @Controller
@@ -49,10 +50,13 @@ public class TestSecurityController {
         return "profile";
     }
 
+    @Autowired
+    private FileService fileService;
 
     @GetMapping("/protected/file")
     @PreAuthorize("hasAuthority('admin')")
-    public String filePage() {
+    public String filePage(Model model) {
+        model.addAttribute("files", fileService.getAllFiles());
         return "listFiles";
     }
 

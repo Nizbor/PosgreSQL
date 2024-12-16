@@ -2,6 +2,9 @@ package sillysociety.org.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,8 @@ import sillysociety.org.service.FileService;
 import sillysociety.org.service.StorageService;
 import sillysociety.org.service.UserService;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import java.util.List;
@@ -75,4 +80,26 @@ public class FileController {
     public void delete(@RequestBody File file) {
         fileService.deleteFile(file);
     }
+
+    @GetMapping("download/{id}")
+    @ResponseBody
+    public ResponseEntity<Resource> downloadFile(@PathVariable Integer id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
+        // Создаём составной идентификатор
+        FileId fileId = new FileId();
+        fileId.setId(id);
+        fileId.setAuthor(userDetails.getId());
+        // Ищем файл в базе данных
+        File file = fileService.getFileById(fileId);
+        // Загружаем файл из хранилища по пути
+        Resource resource = storageService.loadAsResource(file.getPath());
+
+        // Возвращаем файл как вложение
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + file.getName() + "\"")
+                .body(resource);
+    }
+
 }
