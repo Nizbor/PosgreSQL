@@ -12,6 +12,8 @@ public interface FileService{
     List<File> getAllFiles();
     File updateFile(File file);
 
+    List<File> getAllAvailableFiles(Integer id);
 
-
+    File getFileByName(String fileName);
+    void updateVersion(Integer id, Integer version);
 }

@@ -55,8 +55,10 @@ public class TestSecurityController {
 
     @GetMapping("/protected/file")
     @PreAuthorize("hasAuthority('admin')")
-    public String filePage(Model model) {
-        model.addAttribute("files", fileService.getAllFiles());
+    public String filePage(Model model, Authentication auth) {
+        MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
+
+        model.addAttribute("files", fileService.getAllAvailableFiles(userDetails.getId()));
         return "listFiles";
     }
 

@@ -4,10 +4,14 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import sillysociety.org.config.MyUserDetails;
+import sillysociety.org.models.User;
 import sillysociety.org.properties.StorageProperties;
 import sillysociety.org.service.StorageService;
 import sillysociety.org.exception.FileNotFoundException;
@@ -42,7 +46,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public String store(MultipartFile file) {
+    public String store(MultipartFile file, User user) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if (file.isEmpty()) {
@@ -52,7 +56,8 @@ public class StorageServiceImpl implements StorageService {
                 throw new StorageException("Cannot store file with relative path outside current directory " + filename);
             }
             try (InputStream inputStream = file.getInputStream()) {
-                Path targetLocation = this.rootLocation.resolve(filename); // Абсолютный путь
+                Files.createDirectories(this.rootLocation.resolve(user.getLogin()));
+                Path targetLocation = this.rootLocation.resolve(user.getLogin()).resolve(filename); // Абсолютный путь
                 Files.copy(inputStream, targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 return targetLocation.toString(); // Возвращаем абсолютный путь
             }

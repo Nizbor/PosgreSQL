@@ -10,16 +10,13 @@ import java.time.LocalDate;
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "File_id_gen")
-//    @SequenceGenerator(name = "File_id_gen", sequenceName = "\"File_id_seq\"", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @Column(name = "name", nullable = false, length = Integer.MAX_VALUE)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "author", nullable = false)
     private User author;
 

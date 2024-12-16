@@ -6,18 +6,20 @@ import jakarta.persistence.*;
 @Table(name = "\"User_File\"")
 public class UserFile {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "User_File_id_gen")
-    @SequenceGenerator(name = "User_File_id_gen", sequenceName = "\"User_File_id_seq\"", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "\"User_id\"", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "\"File_id\"", nullable = false)
     private File file;
+
+    public UserFile() {}
+    public UserFile(User user, File file) {}
 
     public Integer getId() {
         return id;
