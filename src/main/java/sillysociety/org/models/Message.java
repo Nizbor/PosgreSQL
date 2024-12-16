@@ -7,17 +7,18 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "\"Message\"")
 public class Message {
-    @EmbeddedId
-    private MessageId id;
-
-    @MapsId("chat")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "chat", nullable = false)
-    private Chat chat;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Message_id_gen")
+    @SequenceGenerator(name = "Message_id_gen", sequenceName = "\"Message_id_seq\"", allocationSize = 1)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "\"from\"")
-    private sillysociety.org.models.User from;
+    private User from;
+
+    @Column(name = "chat", nullable = false)
+    private Integer chat;
 
     @Column(name = "\"time\"", nullable = false)
     private LocalDate time;
@@ -25,28 +26,28 @@ public class Message {
     @Column(name = "text_message", length = Integer.MAX_VALUE)
     private String textMessage;
 
-    public MessageId getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(MessageId id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Chat getChat() {
-        return chat;
-    }
-
-    public void setChat(Chat chat) {
-        this.chat = chat;
-    }
-
-    public sillysociety.org.models.User getFrom() {
+    public User getFrom() {
         return from;
     }
 
-    public void setFrom(sillysociety.org.models.User from) {
+    public void setFrom(User from) {
         this.from = from;
+    }
+
+    public Integer getChat() {
+        return chat;
+    }
+
+    public void setChat(Integer chat) {
+        this.chat = chat;
     }
 
     public LocalDate getTime() {

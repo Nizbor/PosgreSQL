@@ -1,6 +1,5 @@
 package sillysociety.org.service;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import sillysociety.org.models.User;
 

@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "\"User_File\"")
 public class UserFile {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "User_File_id_gen")
+    @SequenceGenerator(name = "User_File_id_gen", sequenceName = "\"User_File_id_seq\"", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -14,6 +16,7 @@ public class UserFile {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "\"File_id\"", nullable = false)
     private File file;
 
     public Integer getId() {

@@ -1,10 +1,8 @@
 package sillysociety.org.service.impl;
 
-import jakarta.websocket.server.ServerEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sillysociety.org.models.File;
-import sillysociety.org.models.FileId;
 import sillysociety.org.repository.FileRepository;
 import sillysociety.org.service.FileService;
 
@@ -26,7 +24,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File getFileById(FileId id) {
+    public File getFileById(Integer id) {
         return fileRepository.findById(id).orElse(null);
     }
 
@@ -39,5 +37,4 @@ public class FileServiceImpl implements FileService {
     public File updateFile(File file) {
         return fileRepository.save(file);
     }
-
 }

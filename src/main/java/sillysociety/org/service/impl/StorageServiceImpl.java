@@ -24,8 +24,6 @@ import java.util.stream.Stream;
 
 @Service
 public class StorageServiceImpl implements StorageService {
-
-
     private final Path rootLocation;
 
     @Autowired

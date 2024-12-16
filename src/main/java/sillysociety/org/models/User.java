@@ -1,16 +1,13 @@
 package sillysociety.org.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "\"User\"")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "User_id_gen")
+    @SequenceGenerator(name = "User_id_gen", sequenceName = "\"User_id_seq\"", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -22,9 +19,6 @@ public class User {
 
     @Column(name = "email", nullable = false, length = Integer.MAX_VALUE)
     private String email;
-
-    @Column(name = "birthday", nullable = false)
-    private LocalDate birthday;
 
     @Column(name = "first_name", nullable = false, length = Integer.MAX_VALUE)
     private String firstName;
@@ -65,14 +59,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
     }
 
     public String getFirstName() {

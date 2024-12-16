@@ -1,6 +1,5 @@
 package sillysociety.org.service;
 
-import org.springframework.data.repository.CrudRepository;
 import sillysociety.org.models.Reaction;
 
 import java.util.List;

@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "\"Diploma\"")
 public class Diploma {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Diploma_id_gen")
+    @SequenceGenerator(name = "Diploma_id_gen", sequenceName = "\"Diploma_id_seq\"", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -16,7 +18,8 @@ public class Diploma {
     private Integer mark;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private sillysociety.org.models.File file;
+    @JoinColumn(name = "files")
+    private File files;
 
     public Integer getId() {
         return id;
@@ -42,12 +45,12 @@ public class Diploma {
         this.mark = mark;
     }
 
-    public sillysociety.org.models.File getFile() {
-        return file;
+    public File getFiles() {
+        return files;
     }
 
-    public void setFile(sillysociety.org.models.File file) {
-        this.file = file;
+    public void setFiles(File files) {
+        this.files = files;
     }
 
 }

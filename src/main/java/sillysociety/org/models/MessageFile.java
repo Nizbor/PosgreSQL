@@ -6,13 +6,17 @@ import jakarta.persistence.*;
 @Table(name = "\"Message_File\"")
 public class MessageFile {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Message_File_id_gen")
+    @SequenceGenerator(name = "Message_File_id_gen", sequenceName = "\"Message_File_id_seq\"", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "\"Message_id\"", nullable = false)
     private Message message;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "\"File_id\"", nullable = false)
     private File file;
 
     public Integer getId() {

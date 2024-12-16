@@ -1,14 +1,13 @@
 package sillysociety.org.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "\"Reaction\"")
 public class Reaction {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Reaction_id_gen")
+    @SequenceGenerator(name = "Reaction_id_gen", sequenceName = "\"Reaction_id_seq\"", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
 

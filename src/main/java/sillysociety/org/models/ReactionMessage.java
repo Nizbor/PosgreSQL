@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "\"Reaction_Message\"")
 public class ReactionMessage {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Reaction_Message_id_gen")
+    @SequenceGenerator(name = "Reaction_Message_id_gen", sequenceName = "\"Reaction_Message_id_seq\"", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -14,6 +16,7 @@ public class ReactionMessage {
     private Reaction reaction;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "\"Message_id\"", nullable = false)
     private Message message;
 
     public Integer getId() {

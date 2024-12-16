@@ -12,15 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 import sillysociety.org.config.MyUserDetails;
 
 import sillysociety.org.models.File;
-import sillysociety.org.models.FileId;
-import sillysociety.org.models.User;
 
 import sillysociety.org.service.FileService;
 import sillysociety.org.service.StorageService;
 import sillysociety.org.service.UserService;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 
 import java.util.List;
@@ -46,21 +42,15 @@ public class FileController {
         count++;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
+        //на сервер грузим
         String filename = storageService.store(file);
-        User user = userService.getUserById(userDetails.getId());
-
-        FileId fileId = new FileId();
-        fileId.setId(count);
-        fileId.setAuthor(userDetails.getId());
-
 
         File fileEntity = new File();
-            fileEntity.setId(fileId);
-            fileEntity.setAuthor(user);
-            fileEntity.setName(file.getOriginalFilename());
-            fileEntity.setEditDate(LocalDate.now());
-            fileEntity.setVersion(1);
-            fileEntity.setPath(filename);
+        fileEntity.setName(file.getOriginalFilename());
+        fileEntity.setAuthor(userService.getUserById(userDetails.getId()));
+        fileEntity.setEditDate(LocalDate.now());
+        fileEntity.setVersion(1);
+        fileEntity.setPath(filename);
 
         return fileService.addFile(fileEntity);
     }
@@ -86,12 +76,10 @@ public class FileController {
     public ResponseEntity<Resource> downloadFile(@PathVariable Integer id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
-        // Создаём составной идентификатор
-        FileId fileId = new FileId();
-        fileId.setId(id);
-        fileId.setAuthor(userDetails.getId());
+
         // Ищем файл в базе данных
-        File file = fileService.getFileById(fileId);
+        File file = fileService.getFileById(id);
+
         // Загружаем файл из хранилища по пути
         Resource resource = storageService.loadAsResource(file.getPath());
 

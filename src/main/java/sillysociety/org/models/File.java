@@ -8,16 +8,20 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "\"File\"")
 public class File {
-    @EmbeddedId
-    private FileId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @MapsId("author")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "author", nullable = false)
-    private sillysociety.org.models.User author;
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "File_id_gen")
+//    @SequenceGenerator(name = "File_id_gen", sequenceName = "\"File_id_seq\"", allocationSize = 1)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
     @Column(name = "name", nullable = false, length = Integer.MAX_VALUE)
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "author", nullable = false)
+    private User author;
 
     @Column(name = "edit_date", nullable = false)
     private LocalDate editDate;
@@ -36,33 +40,12 @@ public class File {
     @Column(name = "final", nullable = false)
     private Boolean finalField = false;
 
-    @Override
-    public String toString() {
-        return "FileResponse{" +
-                "id ='" + id + '\'' +
-                ", author='" + author + '\'' +
-                ", name='" + name + '\'' +
-                ", editDate='" + editDate + '\'' +
-                ", version='" + version + '\'' +
-                ", diploma='" + diploma + '\'' +
-                ", finalFiled=" + finalField +
-                '}';
-    }
-
-    public FileId getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(FileId id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    public sillysociety.org.models.User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(sillysociety.org.models.User author) {
-        this.author = author;
     }
 
     public String getName() {
@@ -71,6 +54,14 @@ public class File {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public LocalDate getEditDate() {

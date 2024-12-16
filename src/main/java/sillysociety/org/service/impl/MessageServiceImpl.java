@@ -3,7 +3,6 @@ package sillysociety.org.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sillysociety.org.models.Message;
-import sillysociety.org.models.MessageId;
 import sillysociety.org.repository.MessageRepository;
 import sillysociety.org.service.MessageService;
 
@@ -11,7 +10,6 @@ import java.util.List;
 
 @Service
 public class MessageServiceImpl implements MessageService {
-
     @Autowired
     private MessageRepository messageRepository;
 
@@ -26,7 +24,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message getMessageById(MessageId messageId) {
+    public Message getMessageById(Integer messageId) {
         return messageRepository.findById(messageId).orElse(null);
     }
 

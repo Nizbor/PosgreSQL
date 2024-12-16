@@ -12,6 +12,7 @@ import java.util.List;
 public class UserRoleServiceImpl implements UserRoleService {
     @Autowired
     private UserRoleRepository userRoleRepository;
+
     @Override
     public UserRole addUserRole(UserRole userRole) {
         return userRoleRepository.save(userRole);

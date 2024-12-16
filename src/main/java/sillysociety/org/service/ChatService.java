@@ -1,7 +1,5 @@
 package sillysociety.org.service;
 
-
-
 import sillysociety.org.models.Chat;
 
 import java.util.List;

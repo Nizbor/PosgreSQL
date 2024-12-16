@@ -7,9 +7,9 @@ import sillysociety.org.repository.ChatRepository;
 import sillysociety.org.service.ChatService;
 
 import java.util.List;
+
 @Service
 public class ChatServiceImpl implements ChatService {
-
     @Autowired
     private ChatRepository chatRepository;
 

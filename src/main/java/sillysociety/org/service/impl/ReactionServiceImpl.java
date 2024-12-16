@@ -7,10 +7,12 @@ import sillysociety.org.repository.ReactionRepository;
 import sillysociety.org.service.ReactionService;
 
 import java.util.List;
+
 @Service
 public class ReactionServiceImpl implements ReactionService {
     @Autowired
     private ReactionRepository reactionRepository;
+
     @Override
     public Reaction addReaction(Reaction reaction) {
         return reactionRepository.save(reaction);

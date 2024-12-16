@@ -26,7 +26,7 @@
 <ul>
     <li th:each="file : ${files}">
         <span th:text="${file.name}"></span>
-        <a th:href="@{/api/file/download/{id}(id=${file.id.id})}">Download</a>
+        <a th:href="@{/api/file/download/{id}(id=${file.id})}">Download</a>
     </li>
 </ul>
 

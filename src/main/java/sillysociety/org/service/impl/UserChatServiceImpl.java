@@ -7,10 +7,12 @@ import sillysociety.org.repository.UserChatRepository;
 import sillysociety.org.service.UserChatService;
 
 import java.util.List;
+
 @Service
 public class UserChatServiceImpl implements UserChatService {
     @Autowired
     private UserChatRepository userChatRepository;
+
     @Override
     public UserChat addUserChat(UserChat user) {
         return userChatRepository.save(user);
