@@ -8,8 +8,7 @@ import java.time.LocalDate;
 @Table(name = "\"Message\"")
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Message_id_gen")
-    @SequenceGenerator(name = "Message_id_gen", sequenceName = "\"Message_id_seq\"", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
