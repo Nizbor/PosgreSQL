@@ -6,6 +6,12 @@
     background: #1A191F;
 }
 
+.zero{
+    display: flex;
+    flex-direction: column;
+}
+
+
 .menu{
     width: 260px;
     height: 100vh;
