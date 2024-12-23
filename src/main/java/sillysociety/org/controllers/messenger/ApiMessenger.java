@@ -52,12 +52,9 @@ public class ApiMessenger {
         Integer uid = userDetails.getId();
 
         ArrayList<Integer> newIds = new ArrayList<>(Arrays.asList(ids));
-        System.out.println(newIds);
         newIds.add(0, uid);
-        System.out.println(newIds);
         Integer chatId = newIds.get(newIds.size() - 1);
         newIds.remove(newIds.size() - 1);
-        System.out.println(newIds);
         for (Integer userId : newIds) {
             UserChat userChat = new UserChat();
             userChat.setChat(chatService.getChatById(chatId));
