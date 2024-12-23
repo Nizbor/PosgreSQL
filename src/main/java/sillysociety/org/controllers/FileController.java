@@ -70,6 +70,7 @@ public class FileController {
         fileEntity.setEditDate(LocalDate.now());
         fileEntity.setVersion(1);
         fileEntity.setPath(filename);
+        fileEntity.setSize(file.getSize());
 
         fileEntity = fileService.addFile(fileEntity);
 

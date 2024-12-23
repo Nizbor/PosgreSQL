@@ -59,7 +59,24 @@ public class TestSecurityController {
         MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
 
         model.addAttribute("files", fileService.getAllAvailableFiles(userDetails.getId()));
+        model.addAttribute("user", userDetails.getUser());
         return "listFiles";
+    }
+
+    @GetMapping("/protected/general")
+    @PreAuthorize("hasAuthority('admin')")
+    public String generalPage(Model model, Authentication auth) {
+        MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
+        model.addAttribute("user", userDetails.getUser());
+        return "general";
+    }
+
+    @GetMapping("/protected/message")
+    @PreAuthorize("hasAuthority('admin')")
+    public String messagePage(Model model, Authentication auth) {
+        MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
+        model.addAttribute("user", userDetails.getUser());
+        return "message";
     }
 
 }

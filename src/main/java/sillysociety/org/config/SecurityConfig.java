@@ -45,11 +45,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/unprotected/hello", "/login", "/register").permitAll()
                         .requestMatchers("/protected/**", "/api/file/**").authenticated()
+                        .requestMatchers("/css/**", "/js/**", "/svg/**").permitAll()
                 )
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .permitAll()
+                        .defaultSuccessUrl("/protected/general", true) // Редирект после успешного входа
+                        .permitAll() // Разрешаем доступ к странице логина всем
                 )
                 .build();
     }

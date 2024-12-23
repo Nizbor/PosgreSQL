@@ -1,0 +1,160 @@
+.main-fram {
+    flex-grow: 1;
+    background: #1A191F;
+    justify-content: center;
+    align-items: flex-start; /* Элементы будут выравниваться по верхнему краю */
+    font-size: 24px;
+    padding: 50px;  /* Общие отступы для конте-йнера */
+    padding-top:30px;
+    padding-bottom: 30px;
+    box-sizing: border-box;
+}
+
+.chat-list{
+    /* спиок чатов */
+    width: 306px;
+    height: 100%;
+    background-color: #1A191F;
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    flex-direction: column ;
+}
+
+
+.heder{
+    
+    margin: 30 30 12 10;
+}
+
+.chat-window{
+    /* окно чата */
+    flex-grow: 1;
+    height: 100%;
+    background-color: #1F1F26;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start ;
+    
+}
+
+.chat-people-conteiner{
+    flex-grow: 1;
+    height:100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.chat-people {
+    max-width: 100%;
+    display: flex;
+    justify-content: flex-start ; /* Центрирование по горизонтали */
+    flex-direction: column ;
+    padding: 10;
+    transition: background 0.3s;
+    
+}
+.chat-people:hover{
+    background-color: #1F1F26;
+}
+
+.text-in{
+    text-align: center; /* Центрирование текста по горизонтали */
+    display: flex; /* Включаем Flexbox для центровки */
+    padding: 0 0 0 30;
+    align-items: center; /* Центрирование по вертикали */
+    white-space: nowrap;
+}
+
+.search{
+    margin: 18 18 18 18;
+    /* Rectangle 13 */
+    height: 51px;
+    border: 2px solid #E0F2FF; /* Толщина, стиль и цвет обводки */
+    border-radius: 8px; /* Закругленные углы (если нужно) */
+    display: flex;
+    align-items: center;
+    padding: 0 10 0 10;
+    gap: 80px;
+}
+.use-chat-people{
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start ;
+    align-items: center;
+}
+.use-chat-header{
+    width: 100%;
+    height: 86px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; /* Располагаем элементы по краям */
+    border-top: 2px solid #9ED5FF; /* Толщина, стиль и цвет линии */
+    border-bottom: 2px solid #9ED5FF; /* Толщина, стиль и цвет линии */
+    margin-bottom: 10px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+.use-chat-message{
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+    
+}
+
+.message{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.message-from{
+
+    width: 107px;
+    height: 56px;
+    background-color: #1A191F;
+    margin-left: auto;
+    margin-right: 20px;
+    border-radius: 14px 0px 14px 14px;
+    display: flex;
+    flex-direction: column;
+}
+.message-to{
+    max-width: 50%;
+    height: 56px;
+    background-color: #1A191F;
+    margin-left: 20px;
+    border-radius: 0px 14px 14px 14px;
+    
+}
+
+.time-message{
+    
+}
+
+.use-chat-write{
+    width: 80%;
+    height: 56px;
+    margin-top: 10px;
+    margin-bottom: 44px;
+    background-color: #1A191F;
+    border-radius: 10px; 
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: space-between; /* Располагаем элементы по краям */
+    padding: 0 20px;
+}
+
+.use-write-icon{
+    display: flex;
+    flex-direction: row;
+    gap: 20px
+}

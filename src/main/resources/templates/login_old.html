@@ -4,7 +4,6 @@
       lang="en">
 <head>
     <link rel="stylesheet" th:href="@{/css/login.css}">
-    <link rel="stylesheet" th:href="@{/css/style.css}">
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
 
     <title>Log In</title>
@@ -16,7 +15,6 @@
 </nav>
 
 <div class="login-container">
-    <div class="text-box text-h color-9ED5FF">Вход</div>
     <div class="notification" th:if="${param.error}">Invalid username or password.</div>
     <div class="notification" th:if="${param.logout}">You have been logged out.</div>
     <form class="login-form" th:action="@{/login}" method="post">
@@ -31,5 +29,29 @@
         </div>
     </form>
 </div>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      lang="en">
+<head>
+    <title>Log In</title>
+</head>
+<body>
+
+<div th:if="${param.error}">Invalid username or password.</div>
+<div th:if="${param.logout}">You have been logged out.</div>
+<form th:action="@{/login}" method="post">
+    <div>
+        <input type="text" name="username" placeholder="Username"/>
+    </div>
+    <div>
+        <input type="password" name="password" placeholder="Password"/>
+    </div>
+    <input type="submit" value="Log In" />
+</form>
 </body>
 </html>
