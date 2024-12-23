@@ -141,7 +141,6 @@
             let selectedChatId = -1;
             let messageId = -1;
 
-
             loadMessagesInMemory();
 
             function loadMessagesInMemory() {
@@ -228,6 +227,13 @@
                         return parseInt(await response.text())
                     });
             }
+
+            const messageInput = document.getElementById('messageInput');
+            messageInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
 
             async function sendMessage(chatId = selectedChatId) {
                 const messageInput = document.getElementById('messageInput');
