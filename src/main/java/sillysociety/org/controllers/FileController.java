@@ -1,9 +1,5 @@
 package sillysociety.org.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import org.hibernate.Hibernate;
-import org.hibernate.PropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.core.io.Resource;
@@ -28,14 +24,10 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @RestController
 @RequestMapping(path = "/api/file/")
@@ -62,8 +54,8 @@ public class FileController {
 
         File tmpFile = fileService.getFileByNameAndUserId(file.getOriginalFilename(), userDetails.getUser().getId());
         if (tmpFile != null) {
-            fileService.updateVersion(tmpFile.getId(), tmpFile.getVersion() + 1);
-            return fileService.getFileByNameAndUserId(file.getOriginalFilename(), userDetails.getUser().getId());
+            fileService.updateVersionAndTime(tmpFile.getId(), tmpFile.getVersion() + 1, OffsetDateTime.now());
+            return fileService.getFileById(tmpFile.getId());
         }
         File fileEntity = new File();
         fileEntity.setName(file.getOriginalFilename());

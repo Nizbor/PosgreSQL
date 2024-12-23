@@ -2,6 +2,7 @@ package sillysociety.org.service;
 
 import sillysociety.org.models.File;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 
@@ -15,5 +16,5 @@ public interface FileService{
     List<File> getAllAvailableFiles(Integer id);
 
     File getFileByNameAndUserId(String fileName, Integer userId);
-    void updateVersion(Integer id, Integer version);
+    void updateVersionAndTime(Integer id, Integer version, OffsetDateTime timestamp);
 }

@@ -46,7 +46,6 @@ public class TestSecurityController {
     }
 
     @GetMapping("/profile")
-    @PreAuthorize("hasAuthority('admin')")
     public String profilePage(Model model, Authentication auth) {
         MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
         User user = userService.getUserById(userDetails.getId());

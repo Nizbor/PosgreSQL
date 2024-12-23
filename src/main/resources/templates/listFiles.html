@@ -7,8 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/donkey.css}">
     <link rel="stylesheet" th:href="@{/css/icon.css}">
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
-    <script>
-
+    <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', () => {
             const dropArea = document.querySelector('.dowland-menu');
             const fileInput = document.getElementById('file-input');
@@ -16,19 +15,29 @@
             const cancelButton = document.querySelector('.buttom-litl.text-h2.color-9ED5FF');
             const uploadButton = document.getElementById('upload-button');
             const fileListContainer = document.querySelector('.main-frame-dowland');
+
             const existingFileIds = new Set();
+
+            updateExistingFileIds()
+
+            function updateExistingFileIds() {
+                /*<![CDATA[*/
+                let files = /*[[${files}]]*/ null;
+                /*]]>*/
+                for (let id in files) {
+                    existingFileIds.add(files[id].id);
+                }
+            }
 
             // Обновление отображения выбранных файлов
             const updateFileNames = (files) => {
                 fileNamesContainer.innerHTML = ''; // Очистить контейнер
-
                     Array.from(files).forEach(file => {
                         const fileName = document.createElement('div');
                         fileName.classList.add('file-name');
                         fileName.textContent = file.name;
                         fileNamesContainer.appendChild(fileName);
                     });
-
             };
 
             // Drag-and-Drop события
@@ -85,6 +94,7 @@
                     })
                     .then(data => {
                         appendNewFiles(data); // Добавить только новые файлы
+                        updateExistingFiles(data);
                         fileInput.value = ''; // Очистить выбор файлов
                         updateFileNames([]); // Обновить отображение (убрать список выбранных файлов)
                     })
@@ -113,6 +123,29 @@
                         fileListContainer.appendChild(fileRow);
                     }
                 });
+            };
+
+            const updateExistingFiles = (files) => {
+                files.forEach(file => {
+                    if (existingFileIds.has(file.id)) {
+                        let fileRows = document.querySelectorAll('.list-file');
+                        for (let id in fileRows) {
+                            let row = fileRows[id];
+                            if (row.children[1].innerHTML === file.name) {
+                                row.innerHTML = `
+                                    <div class="icon-svg icon-rectangle"></div>
+                                    <div class="text-box text-h2 color-E0F2FF">${file.name}</div>
+                                    <div class="text-box text-h2 color-E0F2FF">${file.version}</div>
+                                    <div class="text-box text-h2 color-E0F2FF">${file.editDate}</div>
+                                    <div class="text-box text-h2 color-E0F2FF">${file.author.initials}</div>
+                                    <div class="text-box text-h2 color-E0F2FF">${file.size} МБ</div>
+                                    <a href="/api/file/download/${file.id}" class="buttom text-h2 color-9ED5FF">Скачать</a>
+                                `;
+                                break;
+                            }
+                        }
+                    }
+                })
             };
         });
 

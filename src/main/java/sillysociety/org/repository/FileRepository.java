@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import sillysociety.org.models.File;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,10 +15,10 @@ public interface FileRepository extends CrudRepository<File, Integer> {
     @Transactional
     Optional<File> getFileByNameAndUserId(String name, Integer userId);
 
-    @Query("UPDATE File AS f SET f.version = ?2 WHERE f.id = ?1")
+    @Query("UPDATE File AS f SET f.version = ?2, f.editDate = ?3 WHERE f.id = ?1")
+    @Modifying(clearAutomatically = true)
     @Transactional
-    @Modifying
-    void updateVersion(Integer id, Integer version);
+    void updateVersionAndTime(Integer id, Integer version, OffsetDateTime timestamp);
 
     @Query("SELECT f FROM File AS f JOIN UserFile AS uf ON f.id = uf.file.id WHERE uf.user.id = ?1")
     @Transactional

@@ -7,6 +7,7 @@ import sillysociety.org.models.File;
 import sillysociety.org.repository.FileRepository;
 import sillysociety.org.service.FileService;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void updateVersion(Integer id, Integer version) {
-        fileRepository.updateVersion(id, version);
+    public void updateVersionAndTime(Integer id, Integer version, OffsetDateTime timestamp) {
+        fileRepository.updateVersionAndTime(id, version, timestamp);
     }
 }
