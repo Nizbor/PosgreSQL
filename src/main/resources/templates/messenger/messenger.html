@@ -135,10 +135,10 @@
         </div>
 
         <script th:inline="javascript">
-            var messageHistory = {};
-            var lastSelectedNewUserId = -1;
-            var selectedChatId = -1;
-            var messageId = -1;
+            let messageHistory = {};
+            let lastSelectedNewUserId = -1;
+            let selectedChatId = -1;
+            let messageId = -1;
 
 
             loadMessagesInMemory();
@@ -189,7 +189,7 @@
             async function openChatWithUser(element, userId) {
                 selectedChatId = -1;
                 const chatItems = document.querySelectorAll('.chat-people');
-                var chatExists = false;
+                let chatExists = false;
 
                 let existingChatId = await checkExistingChatWithUser(userId);
                 console.log(existingChatId);
