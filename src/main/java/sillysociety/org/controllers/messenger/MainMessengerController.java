@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import sillysociety.org.config.MyUserDetails;
 import sillysociety.org.models.Chat;
 import sillysociety.org.models.Message;
@@ -53,6 +52,6 @@ public class MainMessengerController {
 
         model.addAttribute("messages", messages);
 
-        return "messenger/fiona";
+        return "messenger/messenger";
     }
 }

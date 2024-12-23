@@ -1,426 +1,431 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messenger</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            height: 100vh;
-        }
-        .sidebar {
-            width: 30%;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-        }
-        .search-bar {
-            position: relative;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background-color: #333;
-        }
-        .search-bar input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #555;
-            border-radius: 4px;
-            color: #ffffff;
-            background-color: #1a1a1a;
-        }
-        .search-bar button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-bar input::placeholder {
-            color: #bbbbbb;
-        }
-        .dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background-color: #1a1a1a;
-            border: 1px solid #555;
-            border-radius: 4px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 10;
-            display: none;
-        }
-        .dropdown .dropdown-item {
-            padding: 10px;
-            cursor: pointer;
-            color: #ffffff;
-        }
-        .dropdown .dropdown-item:hover {
-            background-color: #2a2a2a;
-        }
-        .chats {
-            flex: 1;
-            overflow-y: auto;
-        }
-        .chat-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #333;
-            cursor: pointer;
-        }
-        .chat-item:hover {
-            background-color: #2a2a2a;
-        }
-        .chat-item .avatar {
-            width: 40px;
-            height: 40px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .chat-item .info {
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-item .info .name {
-            font-weight: bold;
-            color: #9ED5FF;
-        }
-        .chat-item .info .last-message {
-            font-size: 0.9em;
-            color: #bbbbbb;
-        }
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background-color: #2e2e2e;
-            color: #ffffff;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            background-color: #1a1a1a;
-            border-bottom: 1px solid #333;
-        }
-        .header .avatar {
-            width: 40px;
-            height: 40px;
-            background-color: #ffffff;
-            border-radius: 50%;
-        }
-        .header .name {
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        .header .call-button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .messages {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .message {
-            max-width: 60%;
-            padding: 10px;
-            border-radius: 10px;
-            word-wrap: break-word;
-        }
-        .message.user {
-            background-color: #4CAF50;
-            align-self: flex-end;
-        }
-        .message.other {
-            background-color: #555;
-            align-self: flex-start;
-        }
-        .input-bar {
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid #333;
-            gap: 10px;
-        }
-        .input-bar input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #555;
-            border-radius: 4px;
-        }
-        .input-bar button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .no-chat {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            font-size: 1.5em;
-            color: #bbbbbb;
-        }
-    </style>
-</head>
-<body>
-<div class="sidebar">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/donkey.css}">
+        <link rel="stylesheet" th:href="@{/css/drake.css}">
+        <link rel="stylesheet" th:href="@{/css/icon.css}">
+        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
+        <title>Messenger</title>
 
-    <div class="search-bar">
-        <span>🔍</span>
-        <input type="text" placeholder="Search by name..." id="search" oninput="filterUsers(this.value)" onfocus="showDropdown()" onblur="hideDropdown()">
-        <button class="add-chat">Group</button>
-        <div class="dropdown" id="dropdown">
-            <div th:each="user : ${users}"
-                 class="dropdown-item"
-                 th:text="${user.firstName + ' ' + user.lastName}"
-                 th:onclick="'openChatWithUser(this, \'' + ${user.id} + '\')'"></div>
-        </div>
-    </div>
+        <style>
+            .dropdown {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #1a1a1a;
+                border: 1px solid #555;
+                border-radius: 4px;
+                max-height: 200px;
+                overflow-y: auto;
+                z-index: 10;
+                display: none;
+            }
+            .dropdown .dropdown-item {
+                padding: 10px;
+                cursor: pointer;
+                color: #ffffff;
+            }
+            .dropdown .dropdown-item:hover {
+                background-color: #2a2a2a;
+            }
+        </style>
+    </head>
+
+    <body class = "backround">
+        <nav class = "menu">
+            <nav class = "logo-block">
+                <a href="/">
+                    <img src="/svg/logo.svg" alt="Logo">
+                </a>
+            </nav>
+            <div class = "line"></div>
+            <nav class="menu_container">
+                <a href="/file" class="menu__item">
+                    <div class="menu__item__content">
+                        <div class="icon-svg icon-file"> </div>
+                        <div class="menu__item__text text-style color-E0F2FF"> Файлы </div>
+                    </div>
+                </a>
+    
+                <a href="/messenger" class="menu__item">
+                    <div class="menu__item__content">
+                        <div class="icon-svg icon-message"> </div>
+                        <div class="menu__item__text text-style color-E0F2FF"> Сообщения </div>
+                    </div>
+                </a>
+            </nav>
+            <nav class="menu__item__low">
+                <a href="/logout" class="menu__item">
+                    <div class="menu__item__content">
+                        <div class="icon-svg icon-logout"> </div>
+                        <div class="menu__item__text text-style color-E0F2FF"> Выход </div>
+                    </div>
+                </a>
+            </nav>
+        </nav>
 
 
 
-    <div class="chats">
-        <div th:each="chat : ${chats}" class="chat-item" th:attr="data-id=${chat.id}" onclick="selectChat(this)">
-            <div class="avatar"></div>
-            <div class="info">
-                <span class="name" th:text="${chat.title}"></span>
-                <span class="last-message" th:text="${#lists.isEmpty(messages[chat.id]) ? 'No messages yet' : messages[chat.id].get(messages[chat.id].size()-1).textMessage}"></span>
+        <div class="chat-list">
+<!-- SEARCH BAR NEED TO EDIT -->
+            <div class = "search">
+                <div class="icon-svg icon-loop"></div>
+<!--                -->
+                <input type="text" placeholder="Поиск..." id="search" oninput="filterUsers(this.value)" onfocus="showDropdown()" onblur="hideDropdown()" class="text-style color-9ED5FF">
+<!--                -->
+                <div class="icon-svg icon-people_plus"></div>
+<!--                -->
+                <div class="dropdown" id="dropdown">
+                    <div th:each="user : ${users}"
+                         class="dropdown-item"
+                         th:text="${user.firstName + ' ' + user.lastName}"
+                         th:onclick="'openChatWithUser(this, \'' + ${user.id} + '\')'"></div>
+                </div>
+<!--                -->
+            </div>
+
+<!-- CHATS TAB NEED TO EDIT -->
+            <div class="chat-people-conteiner">
+<!--                -->
+                <div th:each="chat: ${chats}" class="chat-people" th:attr="data-id=${chat.id}" onclick="selectChat(this)">
+                    <div class = "text-in text-h2 color-9ED5FF" th:text="${chat.title}"></div>
+                    <div class = "text-in text-h3 color-E0F2FF" th:text="${#lists.isEmpty(messages.get(chat.id)) ? 'No messages yet' : messages.get(chat.id).get(messages.get(chat.id).size() - 1).textMessage}"></div>
+                </div>
+<!--                -->
             </div>
         </div>
-    </div>
-
-</div>
 
 
-<div class="main">
+
+        <div class="chat-window">
+
+<!-- TEMPLATE HEADER (DO NOT TOUCH) -->
+            <div class="heder">
+                <div class="user">
+                    <div class="icon-svg icon-notification"></div>
+                    <div class=" text-style color-9ED5FF" >CURRENT USER</div>
+                </div>
+            </div>
+<!-- TEMPLATE HEADER (DO NOT TOUCH) -->
+
+<!-- CHAT HEADER NEED TO EDIT -->
+            <div class="use-chat-header">
+                <div class="text-cont text-h color-9ED5FF">
+                    <span>Выберите чат</span>
+                </div>
+<!--                <div class="icon-svg icon-phone"></div>-->
+            </div>
 
 
-    <div class="header" th:if="${selectedChatId != null}">
-        <div class="avatar"></div>
-        <span class="name" th:text="${chats[selectedChatTab].title}">Chat Name</span>
-        <button class="call-button">Call</button>
-    </div>
-    <div class="header" th:if="${selectedChatTab == null && selectedUserId == null}">
-        <div class="avatar"></div>
-        <span class="name">Выберите чат</span>
-    </div>
-    <div class="header" th:if="${selectedUserId != null}">
-        <div class="avatar"></div>
-        <span class="name" th:text="${users[selectedUserId].firstName + ' ' + users[selectedUserId].lastName}">User Name</span>
-    </div>
+<!-- CHAT HEADER NEED TO EDIT -->
+                
+            <div class="use-chat-message">
+            </div>
 
-    <div class="messages" id="messageContainer" th:if="${selectedChatId != null}">
-        <div th:each="message : ${messages.get(selectedChatId)}" class="message" th:classappend="${message.from.id == currentUserId ? ' user' : ' other'}" th:text="${message.textMessage}"></div>
-    </div>
-    <div class="messages no-chat" th:if="${selectedChatId == null && selectedUserId == null}">Выберите чат</div>
-    <div class="messages no-chat" th:if="${selectedUserId != null}">Напишите первым!</div>
+            <div class="use-chat-write" style="display: none">
+                <input type="text" class="text-h3 color-9ED5FF" placeholder="Написать сообщение" id="messageInput">
+                <div class="use-write-icon">
+                    <div class="icon-svg icon-clip"></div>
+                    <div class="icon-svg icon-plane"></div>
+                </div>
+            </div>
+        </div>
 
-    <div class="input-bar" th:if="${selectedChatId != null || selectedUserId != null}">
-        <input type="text" placeholder="Type a message..." id="messageInput">
-        <button>📎</button>
-        <button id="sendButton" onclick="sendMessage()">Send</button>
-    </div>
+        <script th:inline="javascript">
+            var messageHistory = {};
+            var lastSelectedNewUserId = -1;
+            var selectedChatId = -1;
+            var messageId = -1;
 
 
-</div>
+            loadMessagesInMemory();
 
+            function loadMessagesInMemory() {
+                /*<![CDATA[*/
+                let messages = /*[[${messages}]]*/ null;
+                /*]]>*/
 
-<script>
-    function filterUsers(query) {
-        const dropdown = document.getElementById('dropdown');
-        const items = dropdown.querySelectorAll('.dropdown-item');
-        let hasResults = false;
-
-        items.forEach(item => {
-            if (item.textContent.toLowerCase().includes(query.toLowerCase())) {
-                item.style.display = '';
-                hasResults = true;
-            } else {
-                item.style.display = 'none';
-            }
-        });
-
-        dropdown.style.display = hasResults ? 'block' : 'none';
-    }
-
-    function showDropdown() {
-        const dropdown = document.getElementById('dropdown');
-        dropdown.style.display = 'block';
-    }
-
-    function hideDropdown() {
-        const dropdown = document.getElementById('dropdown');
-        setTimeout(() => {
-            dropdown.style.display = 'none';
-        }, 200);
-    }
-
-    let lastSelectedNewUserId = -1;
-    let selectedChatId = -1;
-
-    function openChatWithUser(element, userId) {
-        const chatItems = document.querySelectorAll('.chat-item');
-        let chatExists = false;
-
-        chatItems.forEach(chat => {
-            if (chat.dataset.userId === userId) {
-                chatExists = true;
-                chat.click();
-            }
-        });
-
-        lastSelectedNewUserId = userId;
-
-        if (!chatExists) {
-            // Simulate a new chat UI
-            let main = document.querySelector('.main');
-            let existingMessagesContainer = document.getElementById('messageContainer');
-
-            if (existingMessagesContainer) {
-                existingMessagesContainer.remove(); // Remove the existing message container
-            }
-
-            let existingMessageNoChatContainer = document.getElementsByClassName("no-chat");
-            if (existingMessageNoChatContainer.length > 0) {
-                if (existingMessageNoChatContainer[0].innerHTML !== 'Напишите первым!') {
-                    existingMessageNoChatContainer[0].remove();
-
-                    let newMessagesContainer = document.createElement('div');
-                    newMessagesContainer.className = 'messages no-chat';
-                    newMessagesContainer.innerHTML = 'Напишите первым!';
-
-                    main.appendChild(newMessagesContainer);
+                for (let chatId in messages) {
+                    messageHistory[chatId] = []
+                    messages[chatId].forEach(message => {
+                        messageHistory[chatId].push(message)
+                        messageId = (messageId < message.id ? message.id : messageId);
+                    })
                 }
             }
 
-            const header = document.querySelector('.header');
-            header.querySelector('.name').textContent = element.textContent;
+            function filterUsers(query) {
+                const dropdown = document.getElementById('dropdown');
+                const items = dropdown.querySelectorAll('.dropdown-item');
+                let hasResults = false;
 
-            let inputBar = document.querySelector('.input-bar');
-            if (!inputBar) {
-                inputBar = document.createElement('div');
-                inputBar.className = 'input-bar';
-                inputBar.innerHTML = `
-                            <input type="text" placeholder="Type a message..." id="messageInput">
-                            <button>📎</button>
-                            <button id="sendButton" onclick="sendMessageToNewUser()">Send</button>
-                        `;
-                main.appendChild(inputBar);
+                items.forEach(item => {
+                    if (item.textContent.toLowerCase().includes(query.toLowerCase())) {
+                        item.style.display = '';
+                        hasResults = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                dropdown.style.display = hasResults ? 'block' : 'none';
             }
-            // Optionally send a request to the server to create a new chat here
-        }
-    }
 
-    async function sendMessage(chatId = selectedChatId) {
-        const messageInput = document.getElementById('messageInput');
-        const messageText = messageInput.value.trim();
+            function showDropdown() {
+                const dropdown = document.getElementById('dropdown');
+                dropdown.style.display = 'block';
+            }
 
-        if (messageText) {
-            // Optionally send the message to the server here
+            function hideDropdown() {
+                const dropdown = document.getElementById('dropdown');
+                setTimeout(() => {
+                    dropdown.style.display = 'none';
+                }, 200);
+            }
 
-            await fetch("/messenger/api/sendMessage", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify([chatId.toString(), messageText])
-            })
-                .then(response => response.json)
-                .then(responseData => {
-                    const message = responseData.message;
-                    // appendMessages(message)
-                    messageInput.value = '';
+            async function openChatWithUser(element, userId) {
+                selectedChatId = -1;
+                const chatItems = document.querySelectorAll('.chat-people');
+                var chatExists = false;
+
+                let existingChatId = await checkExistingChatWithUser(userId);
+                console.log(existingChatId);
+
+                chatItems.forEach(chat => {
+                    if (parseInt(chat.dataset.id) === existingChatId) {
+                        chatExists = true;
+                        chat.click();
+                    }
+                });
+
+                if (!chatExists) {
+                    lastSelectedNewUserId = userId;
+                    let chatterboxMessages = document.querySelector('.use-chat-message');
+                    while (chatterboxMessages.firstChild) {
+                        chatterboxMessages.removeChild(chatterboxMessages.firstChild);
+                    }
+
+                    const header = document.querySelector('.text-cont');
+                    header.textContent = element.textContent;
+
+                    let inputBox = document.querySelector('.use-chat-write');
+                    let sendButton = inputBox.children[1];
+                    sendButton.onclick = function() { sendMessageToNewUser() };
+                    inputBox.style.display = '';
+                }
+            }
+
+            async function checkExistingChatWithUser(userId) {
+                let url = "/messenger/api/checkChatWithUser?userId=" + userId;
+                return await fetch(url, {
+                    method: 'GET'
                 })
-                .catch(error => console.error('Error sending message: ', error));
-        }
-    }
+                    .then(async response => {
+                        return parseInt(await response.text())
+                    });
+            }
 
-    async function sendMessageToNewUser() {
-        const messageInput = document.getElementById('messageInput');
-        const message = messageInput.value.trim();
+            async function sendMessage(chatId = selectedChatId) {
+                const messageInput = document.getElementById('messageInput');
+                const messageText = messageInput.value.trim();
 
-        console.log(lastSelectedNewUserId);
+                if (messageText) {
+                    await fetch("/messenger/api/sendMessage", {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify([chatId.toString(), messageText])
+                    })
+                        .then(response => response.json)
+                        .then(async () => {
+                            await requestNewMessages(messageId);
+                            messageInput.value = '';
+                        })
+                        .catch(error => console.error('Error sending message: ', error));
+                }
+            }
 
-        if (message) {
-            await fetch("/messenger/api/createChat", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(lastSelectedNewUserId)
-            })
-                .then(response => response.json())
-                .then(responseData => {
-                    const chatId = responseData.chatId;
-                    console.log(chatId);
-                    addUsersToChat(chatId);
-                    return chatId;
+            async function sendMessageToNewUser() {
+                const messageInput = document.getElementById('messageInput');
+                const message = messageInput.value.trim();
+
+                console.log(lastSelectedNewUserId);
+
+                if (message) {
+                    await fetch("/messenger/api/createChat", {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(lastSelectedNewUserId)
+                    })
+                        .then(response => response.json())
+                        .then(async responseData => {
+                            const chatId = responseData.chatId;
+                            console.log(chatId);
+                            await addUsersToChat(chatId);
+                            return chatId;
+                        })
+                        .then(async chatId => {
+                            await sendMessage(chatId);
+                            console.log(chatId);
+                            let element = document.querySelector(`[data-id="${chatId}"]`);
+                            console.log(element);
+                            selectChat(element);
+                        })
+                        .catch(error => console.error('Error adding chat: ', error));
+                }
+            }
+
+            async function addUsersToChat(chatId) {
+                let ids = [];
+                ids.push(lastSelectedNewUserId)
+                ids.push(chatId)
+                await fetch("/messenger/api/addUsersToChat", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(ids)
                 })
-                .then(chatId => {
-                    sendMessage(chatId)
-                    // window.location.reload();
-                    window.location.href = `/messenger?chatId=${chatId}`;
-                })
-                .catch(error => console.error('Error adding chat: ', error));
-        }
-    }
+                    .then(() => {
+                        console.log("Yes");
+                    })
+                    .catch(error => console.error('Error adding users: ', error));
 
-    async function addUsersToChat(chatId) {
-        let ids = [];
-        ids.push(lastSelectedNewUserId)
-        ids.push(chatId)
-        await fetch("/messenger/api/addUsersToChat", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(ids)
-        })
-            .then(() => {
-                console.log("Yes");
-            })
-            .catch(error => console.error('Error adding users: ', error));
+            }
 
-    }
+            function selectChat(element) {
+                lastSelectedNewUserId = -1;
+                console.log(element);
+                const chatId = element.getAttribute('data-id');
 
-    function selectChat(element) {
-        const chatId = element.getAttribute('data-id');
-        // Optionally set the selectedChatId and reload content
-        selectedChatId = chatId;
+                if ((selectedChatId !== -1) && (document.querySelector(`[data-id="${selectedChatId}"]`) !== element)) {
+                    console.log("Was selected another chat = ", selectedChatId, "\nchatId to select = ", chatId);
+                    document.querySelector(`[data-id="${selectedChatId}"]`).classList.toggle('active');
+                    element.classList.toggle('active');
+                    updateChatWindow(chatId);
+                }
+                if (selectedChatId === -1) {
+                    console.log("Not selected yet: selectedChatId = ", selectedChatId, "\nchatId to select = ", chatId);
+                    element.classList.toggle('active');
+                    let inputBox = document.querySelector('.use-chat-write');
+                    let sendButton = inputBox.children[1];
+                    sendButton.onclick = function() { sendMessage() };
+                    inputBox.style.display = '';
+                    updateChatWindow(chatId);
+                }
 
-        let main = document.querySelector('.main');
-        let inputBar = document.querySelector('.input-bar');
-        if (inputBar) inputBar.remove();
-        if (!inputBar) {
-            inputBar = document.createElement('div');
-            inputBar.className = 'input-bar';
-            inputBar.innerHTML = `
-                            <input type="text" placeholder="Type a message..." id="messageInput">
-                            <button>📎</button>
-                            <button id="sendButton" onclick="sendMessage()">Send</button>
-                        `;
-            main.appendChild(inputBar);
-        }
-        window.location.href = `/messenger?chatId=${chatId}`; // Assuming a controller endpoint to handle chat selection
-    }
+                selectedChatId = chatId;
+            }
 
+            function updateChatWindow(chatId) {
+                let chatWindowTitle = document.querySelector('.use-chat-header');
+                chatWindowTitle.children[0].innerHTML = messageHistory[chatId][0].chat.title;
 
-</script>
-</body>
+                let chatterboxMessages = document.querySelector('.use-chat-message');
+                while (chatterboxMessages.firstChild) {
+                    chatterboxMessages.removeChild(chatterboxMessages.firstChild);
+                }
+
+                for (let i = 0; i < messageHistory[chatId].length; i++) {
+                    displayMessage(messageHistory[chatId][i]);
+                }
+            }
+
+            function displayMessage(messageContent) {
+                /*<![CDATA[*/
+                let authUserId = /*[[${currentUserId}]]*/ null;
+                /*]]>*/
+                let type = (messageContent.from.id === authUserId ? 'message-from' : 'message-to')
+
+                let chatterbox = document.querySelector('.use-chat-message');
+                let messageBlock = document.createElement("div");
+                messageBlock.classList.add("message")
+
+                let messageWho = document.createElement("div");
+                messageWho.classList.add(type)
+
+                let messageText = document.createElement("div");
+                messageText.innerText = messageContent.textMessage;
+                messageText.classList.add("message-content", "text-h3", "color-9ED5FF")
+
+                let messageTime = document.createElement("div");
+                messageTime.innerText = messageContent.time
+                messageTime.classList.add("time-message", "text-h3");
+
+                messageWho.appendChild(messageText);
+                messageWho.appendChild(messageTime);
+                messageBlock.appendChild(messageWho);
+                chatterbox.appendChild(messageBlock);
+
+                chatterbox.scrollTop = chatterbox.scrollHeight;
+            }
+
+            function addMessage(message) {
+                messageId = message.id;
+                let chatId = message.chat.id;
+
+                if (!(chatId in messageHistory)) {
+                    messageHistory[chatId] = [];
+                    addChatTab(message);
+                }
+                messageHistory[chatId].push(message);
+
+                if (parseInt(selectedChatId) === chatId) {
+                    displayMessage(message);
+                }
+                updateSubtitle(chatId);
+            }
+
+            function updateSubtitle(chatId) {
+                let chatTab = document.querySelector(`[data-id="${chatId}"]`)
+
+                let messages = messageHistory[chatId];
+                chatTab.children[1].innerText = messages[messages.length - 1].textMessage;
+            }
+
+            function addChatTab(message) {
+                let title = document.createElement("div");
+                title.classList.add("text-in", "text-h2", "color-9ED5FF");
+                title.innerText = message.chat.title;
+
+                let subtitle = document.createElement("div");
+                subtitle.classList.add("text-in", "text-h3", "color-E0F2FF");
+                subtitle.innerText = message.textMessage;
+
+                let chatTab = document.createElement("div");
+                chatTab.classList.add("chat-people");
+                chatTab.setAttribute("data-id", message.chat.id);
+                chatTab.onclick = function() { selectChat(this) };
+                chatTab.appendChild(title);
+                chatTab.appendChild(subtitle);
+
+                let chatlist = document.querySelector('.chat-people-conteiner');
+                chatlist.appendChild(chatTab);
+            }
+
+            async function requestNewMessages(idOfLastMessage) {
+                let url = "/messenger/api/getMessages?lastMessageId=" + idOfLastMessage;
+                let response = await fetch(url);
+
+                if (response.ok) {
+                    let json = await response.json();
+
+                    if (json != null) {
+                        for (let i = 0; i < json.length; i++) {
+                            await addMessage(json[i]);
+                        }
+                    }
+                }
+            }
+
+            function start() {
+                let intervalTime = 1;
+                let request = setInterval(() => {
+                    requestNewMessages(messageId);
+                }, intervalTime * 1000);
+            }
+
+            setTimeout(start, 1000);
+        </script>
+    </body>
 </html>
