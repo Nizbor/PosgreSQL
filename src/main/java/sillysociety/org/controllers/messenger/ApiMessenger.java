@@ -94,12 +94,12 @@ public class ApiMessenger {
         return messageService.getNewMessages(lastMessageId, userDetails.getId());
     }
 
-    @GetMapping(path = "/checkChatWithUser")
-    public Integer checkChatWithUser(Authentication auth, @RequestParam Integer userId) {
+    @GetMapping(path = "/checkChatWithUsers")
+    public Integer checkChatWithUsers(Authentication auth, @RequestParam List<Integer> userId) {
         MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
 
-        List<Integer> userIds = List.of(userDetails.getId(), userId);
-        List<Integer> chatIds = userChatService.findChatsByUserIds(userIds, 2);
+        userId.add(userDetails.getId());
+        List<Integer> chatIds = userChatService.findChatsByUserIds(userId, userId.size());
 
         if (!chatIds.isEmpty()) {
             return chatIds.get(0);
