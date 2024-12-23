@@ -1,0 +1,13 @@
+<div class="logo-block-text-one text-style">
+                surplus
+            </div>
+            <div class="logo-block-text-two text-style">
+                излишек
+            </div>
+            <div class="logo-block-vector">
+                <img  src = "svg/logo.svg" alt = "Logo" >
+            </div>
+
+
+
+<img src="svg/test.svg" alt="Logo">

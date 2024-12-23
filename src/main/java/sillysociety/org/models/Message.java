@@ -3,6 +3,7 @@ package sillysociety.org.models;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "\"Message\"")
@@ -12,15 +13,16 @@ public class Message {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "\"from\"")
     private User from;
 
-    @Column(name = "chat", nullable = false)
-    private Integer chat;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "chat", nullable = false)
+    private Chat chat;
 
     @Column(name = "\"time\"", nullable = false)
-    private LocalDate time;
+    private OffsetDateTime time;
 
     @Column(name = "text_message", length = Integer.MAX_VALUE)
     private String textMessage;
@@ -41,19 +43,19 @@ public class Message {
         this.from = from;
     }
 
-    public Integer getChat() {
+    public Chat getChat() {
         return chat;
     }
 
-    public void setChat(Integer chat) {
+    public void setChat(Chat chat) {
         this.chat = chat;
     }
 
-    public LocalDate getTime() {
+    public OffsetDateTime getTime() {
         return time;
     }
 
-    public void setTime(LocalDate time) {
+    public void setTime(OffsetDateTime time) {
         this.time = time;
     }
 

@@ -1,0 +1,48 @@
+.icon-svg{
+    width: 24px;
+    height: 24px;
+    left: 2px;
+    top: 0;
+    background-image: var(--icon-url);
+    background-size: contain; /* Масштабирование, чтобы вся иконка поместилась */
+    background-repeat: no-repeat; /* Убираем повторение */
+    background-position: center; /* Центрирование иконки */
+}
+.icon-file {
+    --icon-url: url('../svg/file.svg'); /* Указываем путь к иконке */
+}
+
+.icon-message {
+    --icon-url: url('../svg/message.svg'); /* Указываем путь к иконке */
+}
+.icon-logout{
+    --icon-url: url('../svg/logout.svg');
+}
+
+.icon-notification{
+    --icon-url: url('../svg/notification.svg')
+}
+
+.icon-rectangle{
+    --icon-url: url('../svg/rectangle.svg')
+}
+
+.icon-people_plus{
+    --icon-url: url('../svg/people_plus.svg')
+}
+
+.icon-loop{
+    --icon-url: url('../svg/loop.svg')
+}
+
+.icon-phone{
+    --icon-url: url('../svg/phone.svg')
+}
+
+.icon-plane{
+    --icon-url: url('../svg/plane.svg')
+}
+
+.icon-clip{
+    --icon-url: url('../svg/clip.svg')
+}

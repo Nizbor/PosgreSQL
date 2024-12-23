@@ -10,4 +10,6 @@ public interface UserChatService {
     UserChat getUserChatById(Integer id);
     List<UserChat> getAllUserChats();
     UserChat updateUserChat(UserChat user);
+
+    List<Integer> findChatsByUserIds(List<Integer> userIds, Integer userCount);
 }

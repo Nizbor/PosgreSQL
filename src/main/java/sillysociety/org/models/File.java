@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "\"File\"")
@@ -21,7 +22,7 @@ public class File {
     private User author;
 
     @Column(name = "edit_date", nullable = false)
-    private LocalDate editDate;
+    private OffsetDateTime editDate;
 
     @Column(name = "version", nullable = false)
     private Integer version;
@@ -61,11 +62,11 @@ public class File {
         this.author = author;
     }
 
-    public LocalDate getEditDate() {
+    public OffsetDateTime getEditDate() {
         return editDate;
     }
 
-    public void setEditDate(LocalDate editDate) {
+    public void setEditDate(OffsetDateTime editDate) {
         this.editDate = editDate;
     }
 

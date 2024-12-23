@@ -10,4 +10,6 @@ public interface ChatService{
     Chat getChatById(Integer id);
     List<Chat> getAllChats();
     Chat updateChat(Chat chat);
+
+    List<Chat> getChatsByUID(Integer UID);
 }

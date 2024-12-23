@@ -37,4 +37,9 @@ public class ChatServiceImpl implements ChatService {
     public Chat updateChat(Chat chat) {
         return chatRepository.save(chat);
     }
+
+    @Override
+    public List<Chat> getChatsByUID(Integer UID) {
+        return chatRepository.getChatsByUID(UID);
+    }
 }

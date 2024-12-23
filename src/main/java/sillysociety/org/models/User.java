@@ -84,4 +84,12 @@ public class User {
         this.fatherland = fatherland;
     }
 
+    public String getInitials() {
+        if (this.fatherland != null){
+            return lastName + " " + firstName.substring(0, 1).toUpperCase() + "." + fatherland.substring(0, 1).toUpperCase() + ".";
+        }
+        else{
+            return lastName + " " + firstName.substring(0, 1).toUpperCase() + ".";
+        }
+    }
 }

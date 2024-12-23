@@ -18,10 +18,18 @@ import sillysociety.org.service.UserService;
 public class TestSecurityController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private FileService fileService;
 
     @GetMapping("/")
-    public String rootPage() {
-        return "login";
+    public String rootPage(Model model, Authentication auth) {
+        if (auth != null) {
+            MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
+            model.addAttribute("user", userDetails.getUser());
+            return "general";
+        } else {
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/login")
@@ -37,29 +45,28 @@ public class TestSecurityController {
         return "/login";
     }
 
-    @GetMapping("/protected/profile")
+    @GetMapping("/profile")
     @PreAuthorize("hasAuthority('admin')")
     public String profilePage(Model model, Authentication auth) {
         MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
-        String username = userDetails.getUsername();
-
         User user = userService.getUserById(userDetails.getId());
-
 
         model.addAttribute("username", user.getFirstName());
         return "profile";
     }
 
-    @Autowired
-    private FileService fileService;
+    @GetMapping(path = "/general")
+    public String rootPage() {
+        return "redirect:/";
+    }
 
-    @GetMapping("/protected/file")
-    @PreAuthorize("hasAuthority('admin')")
+    @GetMapping("/file")
     public String filePage(Model model, Authentication auth) {
         MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
 
         model.addAttribute("files", fileService.getAllAvailableFiles(userDetails.getId()));
         return "listFiles";
     }
+
 
 }

@@ -30,6 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,7 +68,7 @@ public class FileController {
         File fileEntity = new File();
         fileEntity.setName(file.getOriginalFilename());
         fileEntity.setAuthor(userDetails.getUser());
-        fileEntity.setEditDate(LocalDate.now());
+        fileEntity.setEditDate(OffsetDateTime.now());
         fileEntity.setVersion(1);
         fileEntity.setPath(filename);
 

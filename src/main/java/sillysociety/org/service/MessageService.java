@@ -11,4 +11,6 @@ public interface MessageService {
     List<Message> getAllMessages();
     Message updateMessage(Message message);
 
+    List<Message> getMessagesByChatId(Integer chatId);
+    List<Message> getNewMessages(Integer lastMessageId, Integer userId);
 }

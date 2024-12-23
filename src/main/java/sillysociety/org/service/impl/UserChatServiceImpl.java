@@ -37,4 +37,9 @@ public class UserChatServiceImpl implements UserChatService {
     public UserChat updateUserChat(UserChat user) {
         return userChatRepository.save(user);
     }
+
+    @Override
+    public List<Integer> findChatsByUserIds(List<Integer> userIds, Integer userCount) {
+        return userChatRepository.findChatsByUserIds(userIds, userCount);
+    }
 }

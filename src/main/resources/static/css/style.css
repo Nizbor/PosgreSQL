@@ -1,0 +1,65 @@
+.text-style {
+    color: var(--color);
+    font-family: Jost;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px;
+    letter-spacing: 0%;
+    text-align: left;
+}
+
+.text-h{
+    color: var(--color);
+    font-family: Jost;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 35px;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+.text-h2{
+    color: var(--color);
+    font-family: Jost;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: -2%;
+    text-align: left;
+}
+
+.text-h3{
+    color: var(--color);
+    font-family: Jost;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0%;
+    text-align: left;
+}
+
+.color-9ED5FF{
+   --color : #9ED5FF;
+}
+
+.color-E0F2FF{
+    --color : #E0F2FF;
+}
+
+.color-1F1F26{
+    --color : #1F1F26;
+}
+
+.color-1A191F{
+    --color : #1A191F;
+}
+
+.text-cont{
+    padding: 10px; /* Внутренние отступы */
+    text-align: center; /* Центрирование текста по горизонтали */
+    display: flex; /* Включаем Flexbox для центровки */
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали */
+    white-space: nowrap;
+    
+}

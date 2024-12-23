@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 30%;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+        }
+        .search-bar {
+            position: relative;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #333;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: #ffffff;
+            background-color: #1a1a1a;
+        }
+        .search-bar button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .search-bar input::placeholder {
+            color: #bbbbbb;
+        }
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #1a1a1a;
+            border: 1px solid #555;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 10;
+            display: none;
+        }
+        .dropdown .dropdown-item {
+            padding: 10px;
+            cursor: pointer;
+            color: #ffffff;
+        }
+        .dropdown .dropdown-item:hover {
+            background-color: #2a2a2a;
+        }
+        .chats {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            cursor: pointer;
+        }
+        .chat-item:hover {
+            background-color: #2a2a2a;
+        }
+        .chat-item .avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .chat-item .info {
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-item .info .name {
+            font-weight: bold;
+            color: #9ED5FF;
+        }
+        .chat-item .info .last-message {
+            font-size: 0.9em;
+            color: #bbbbbb;
+        }
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #2e2e2e;
+            color: #ffffff;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #333;
+        }
+        .header .avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #ffffff;
+            border-radius: 50%;
+        }
+        .header .name {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .header .call-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .message {
+            max-width: 60%;
+            padding: 10px;
+            border-radius: 10px;
+            word-wrap: break-word;
+        }
+        .message.user {
+            background-color: #4CAF50;
+            align-self: flex-end;
+        }
+        .message.other {
+            background-color: #555;
+            align-self: flex-start;
+        }
+        .input-bar {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #333;
+            gap: 10px;
+        }
+        .input-bar input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 4px;
+        }
+        .input-bar button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .no-chat {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            font-size: 1.5em;
+            color: #bbbbbb;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <div class="search-bar">
+        <span>🔍</span>
+        <input type="text" placeholder="Search by name..." id="search" oninput="filterUsers(this.value)" onfocus="showDropdown()" onblur="hideDropdown()">
+        <button class="add-chat">Group</button>
+        <div class="dropdown" id="dropdown">
+            <div th:each="user : ${users}" class="dropdown-item" th:text="${user.firstName + ' ' + user.lastName}"
+                 onclick="openChatWithUser(this, /*[[${user.id}]]*/ 'userIdPlaceholder')"></div>
+        </div>
+    </div>
+    <div class="chats">
+        <div th:each="chat : ${chats}" class="chat-item" th:attr="data-id=${chat.id}" onclick="selectChat(this)">
+            <div class="avatar"></div>
+            <div class="info">
+                <span class="name" th:text="${chat.title}"></span>
+                <span class="last-message" th:text="${#lists.isEmpty(messages[chat.id]) ? 'No messages yet' : messages[chat.id].get(messages[chat.id].size()-1).textMessage}"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main">
+    <div class="header">
+        <img src="/static/img/default-avatar.png" class="avatar" alt="Avatar">
+        <div class="name">Выберите чат</div>
+    </div>
+    <div class="messages" id="messageContainer">
+        <div class="no-chat">Выберите чат</div>
+    </div>
+    <div class="input-bar" style="display: none;">
+        <input type="text" placeholder="Type a message..." id="messageInput">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+<script>
+    function filterUsers(query) {
+        const dropdown = document.getElementById('dropdown');
+        const items = dropdown.querySelectorAll('.dropdown-item');
+        let hasResults = false;
+
+        items.forEach(item => {
+            if (item.textContent.toLowerCase().includes(query.toLowerCase())) {
+                item.style.display = '';
+                hasResults = true;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        dropdown.style.display = hasResults ? 'block' : 'none';
+    }
+
+    function showDropdown() {
+        const dropdown = document.getElementById('dropdown');
+        dropdown.style.display = 'block';
+    }
+
+    function hideDropdown() {
+        const dropdown = document.getElementById('dropdown');
+        setTimeout(() => {
+            dropdown.style.display = 'none';
+        }, 200);
+    }
+
+    let lastSelectedNewUserId = -1;
+    let selectedChatId = null;
+
+    let selectedChatId = null;
+    let lastMessageId = 0; // Tracks the last received message ID for polling
+
+    function openChatWithUser(element, userId) {
+        const chatItems = document.querySelectorAll('.chat-item');
+        let chatExists = false;
+
+        chatItems.forEach(chat => {
+            if (chat.dataset.userId === userId) {
+                chatExists = true;
+                chat.click();
+            }
+        });
+
+        lastSelectedNewUserId = userId;
+
+        if (!chatExists) {
+            // Simulate a new chat UI
+            let main = document.querySelector('.main');
+            let existingMessagesContainer = document.getElementById('messageContainer');
+
+            if (existingMessagesContainer) {
+                existingMessagesContainer.remove(); // Remove the existing message container
+            }
+
+            let existingMessageNoChatContainer = document.getElementsByClassName("no-chat");
+            if (existingMessageNoChatContainer.length > 0) {
+                if (existingMessageNoChatContainer[0].innerHTML !== 'Напишите первым!') {
+                    existingMessageNoChatContainer[0].remove();
+
+                    let newMessagesContainer = document.createElement('div');
+                    newMessagesContainer.className = 'messages no-chat';
+                    newMessagesContainer.innerHTML = 'Напишите первым!';
+
+                    main.appendChild(newMessagesContainer);
+                }
+            }
+
+            const header = document.querySelector('.header');
+            header.querySelector('.name').textContent = element.textContent;
+
+            let inputBar = document.querySelector('.input-bar');
+            if (!inputBar) {
+                inputBar = document.createElement('div');
+                inputBar.className = 'input-bar';
+                inputBar.innerHTML = `
+                            <input type="text" placeholder="Type a message..." id="messageInput">
+                            <button>📎</button>
+                            <button id="sendButton" onclick="sendMessage()">Send</button>
+                        `;
+                main.appendChild(inputBar);
+            }
+            // Optionally send a request to the server to create a new chat here
+        }
+    }
+
+    // Function to poll for new messages every 2 seconds
+    function pollNewMessages() {
+        if (selectedChatId) {
+            fetch(`/messenger/api/getMessages?lastMessageId=${lastMessageId}`)
+                .then(response => response.json())
+                .then(messages => {
+                    if (messages.length > 0) {
+                        lastMessageId = messages[messages.length - 1].id;
+                        appendMessages(messages);
+                    }
+                })
+                .catch(error => console.error('Error fetching messages:', error));
+        }
+    }
+
+    // Function to append new messages to the chat container
+    function appendMessages(messages) {
+        const messageContainer = document.getElementById('messageContainer');
+        messages.forEach(message => {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = message.fromMe ? 'message from-me' : 'message';
+            messageDiv.textContent = message.textMessage;
+            messageContainer.appendChild(messageDiv);
+        });
+        messageContainer.scrollTop = messageContainer.scrollHeight; // Auto-scroll to the bottom
+    }
+
+    // Function to switch chats and load messages
+    function switchChat(chatId) {
+        selectedChatId = chatId;
+        lastMessageId = 0; // Reset message tracking for the new chat
+        const chatMessages = messages[chatId] || []; // Loaded from Thymeleaf during initial load
+
+        // Clear the message container
+        const messageContainer = document.getElementById('messageContainer');
+        messageContainer.innerHTML = '';
+
+        // Display existing messages
+        appendMessages(chatMessages);
+
+        // Update header details (e.g., chat name)
+        const chat = chats[chatId];
+        const headerName = document.querySelector('.header .name');
+        headerName.textContent = chat.title || 'Чат без названия';
+
+        // Make the input bar visible
+        document.querySelector('.input-bar').style.display = 'flex';
+    }
+
+    // Start polling when the page is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        setInterval(pollNewMessages, 2000); // Poll every 2 seconds
+    });
+
+    // Example sendMessage function for creating a new message
+    function sendMessage() {
+        const messageInput = document.getElementById('messageInput');
+        const text = messageInput.value.trim();
+        if (text && selectedChatId) {
+            fetch('/messenger/api/sendMessage', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify([selectedChatId.toString(), text])
+            })
+                .then(response => response.json())
+                .then(responseData => {
+                    const message = responseData.message;
+                    appendMessages([message]);
+                    messageInput.value = '';
+                })
+                .catch(error => console.error('Error sending message:', error));
+        }
+    }
+
+    function selectChat(element) {
+        const chatId = element.getAttribute('data-id');
+        // Optionally set the selectedChatId and reload content
+        selectedChatId = chatId;
+        window.location.href = `/messenger?chatId=${chatId}`; // Assuming a controller endpoint to handle chat selection
+    }
+
+
+</script>
+</body>
+</html>

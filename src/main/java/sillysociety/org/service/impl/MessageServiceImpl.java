@@ -37,4 +37,14 @@ public class MessageServiceImpl implements MessageService {
     public Message updateMessage(Message message) {
         return messageRepository.save(message);
     }
+
+    @Override
+    public List<Message> getMessagesByChatId(Integer chatId) {
+        return messageRepository.getMessagesByChatId(chatId);
+    }
+
+    @Override
+    public List<Message> getNewMessages(Integer lastMessageId, Integer userId) {
+        return messageRepository.getNewMessages(lastMessageId, userId);
+    }
 }
