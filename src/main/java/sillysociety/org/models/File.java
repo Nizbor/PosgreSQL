@@ -3,6 +3,8 @@ package sillysociety.org.models;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
@@ -37,6 +39,24 @@ public class File {
     @ColumnDefault("false")
     @Column(name = "final", nullable = false)
     private Boolean finalField = false;
+
+    @Column(name = "size", nullable = false)
+    private Double size;
+
+    public Double getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        // Конвертируем размер в мегабайты
+        double sizeInMB = (double) size / 1024 / 1024;
+
+        // Округляем до 2 знаков после запятой
+        BigDecimal roundedSize = new BigDecimal(sizeInMB).setScale(2, RoundingMode.HALF_UP);
+
+        // Присваиваем округленное значение
+        this.size = roundedSize.doubleValue();
+    }
 
     public Integer getId() {
         return id;

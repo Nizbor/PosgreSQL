@@ -112,49 +112,28 @@
     justify-content: flex-start;
 }
 
-.message-from {
-    max-width: 50%; /* Ограничиваем ширину сообщения */
+.message-from{
+
+    width: 107px;
+    height: 56px;
     background-color: #1A191F;
     margin-left: auto;
     margin-right: 20px;
     border-radius: 14px 0px 14px 14px;
     display: flex;
     flex-direction: column;
-    padding: 10px; /* Добавляем отступы для текста */
-    word-wrap: break-word; /* Перенос слов на новую строку */
-    box-sizing: border-box; /* Включаем padding в размер блока */
-    position: relative;
 }
-
-.message-to {
-    max-width: 50%; /* Ограничиваем ширину сообщения */
+.message-to{
+    max-width: 50%;
+    height: 56px;
     background-color: #1A191F;
     margin-left: 20px;
     border-radius: 0px 14px 14px 14px;
-    display: flex;
-    flex-direction: column;
-    padding: 10px; /* Добавляем отступы для текста */
-    word-wrap: break-word; /* Перенос слов на новую строку */
-    box-sizing: border-box; /* Включаем padding в размер блока */
-    position: relative;
+    
 }
 
-.time-message {
-    font-size: 12px; /* Размер шрифта времени */
-    color: #9E9E9E; /* Серый цвет для времени */
-    margin-top: 5px; /* Отступ сверху */
-    position: absolute;
-    bottom: 5px; /* Прикрепляем к низу контейнера */
-    right: 10px; /* Отступ справа для .message-from */
-}
-
-.message-content {
-    margin-bottom: 20px; /* Отступ для времени */
-}
-
-.message-to .time-message {
-    left: 10px; /* Отступ слева для .message-to */
-    right: auto; /* Сбрасываем правый отступ */
+.time-message{
+    
 }
 
 .use-chat-write{

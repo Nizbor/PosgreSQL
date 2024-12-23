@@ -1,37 +1,204 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<body>
+<head>
+    <title>Файлообменник</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/donkey.css}">
+    <link rel="stylesheet" th:href="@{/css/icon.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
+    <script>
 
-<h1>Spring Boot File Upload Example</h1>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropArea = document.querySelector('.dowland-menu');
+            const fileInput = document.getElementById('file-input');
+            const fileNamesContainer = document.getElementById('file-names');
+            const cancelButton = document.querySelector('.buttom-litl.text-h2.color-9ED5FF');
+            const uploadButton = document.getElementById('upload-button');
+            const fileListContainer = document.querySelector('.main-frame-dowland');
+            const existingFileIds = new Set();
 
-<hr/>
+            // Обновление отображения выбранных файлов
+            const updateFileNames = (files) => {
+                fileNamesContainer.innerHTML = ''; // Очистить контейнер
 
-<h4>Upload Single File:</h4>
-<form method="POST" enctype="multipart/form-data" th:action="@{/api/file/add}">
-    <input type="file" name="file"> <br/><br/>
-    <button type="submit">Submit</button>
-</form>
+                    Array.from(files).forEach(file => {
+                        const fileName = document.createElement('div');
+                        fileName.classList.add('file-name');
+                        fileName.textContent = file.name;
+                        fileNamesContainer.appendChild(fileName);
+                    });
 
-<hr/>
+            };
 
-<h4>Upload Multiple Files:</h4>
-<form method="POST" enctype="multipart/form-data" th:action="@{/api/file/multiple-add}">
-    <input type="file" name="files" multiple> <br/><br/>
-    <button type="submit">Submit</button>
-</form>
+            // Drag-and-Drop события
+            dropArea.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                dropArea.classList.add('highlight');
+            });
 
-<hr/>
+            dropArea.addEventListener('dragleave', () => {
+                dropArea.classList.remove('highlight');
+            });
 
-<h2>All Uploaded Files:</h2>
-<ul>
-    <li th:each="file : ${files}">
-        <span th:text="${file.name}"></span>
-        <a th:href="@{/api/file/download/{id}(id=${file.id})}">Download</a>
-    </li>
-</ul>
+            dropArea.addEventListener('drop', (event) => {
+                event.preventDefault();
+                dropArea.classList.remove('highlight');
+                fileInput.files = event.dataTransfer.files;
+                updateFileNames(fileInput.files);
+            });
 
-<h2>Log Out:</h2>
-<a href="/logout">Logout</a>
+            // Выбор файлов
+            fileInput.addEventListener('change', () => {
+                updateFileNames(fileInput.files);
+            });
 
+            // Отмена выбора файлов
+            cancelButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                fileInput.value = ''; // Очищаем выбранные файлы
+                updateFileNames(fileInput.files);
+            });
+
+            // Загрузка файлов
+            uploadButton.addEventListener('click', () => {
+                const files = fileInput.files;
+                if (files.length === 0) {
+                    console.warn("Выберите хотя бы один файл!");
+                    return;
+                }
+
+                const formData = new FormData();
+                for (let i = 0; i < files.length; i++) {
+                    formData.append("files", files[i]);
+                }
+
+                fetch('/api/file/multiple-add', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Ошибка загрузки файлов.");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        appendNewFiles(data); // Добавить только новые файлы
+                        fileInput.value = ''; // Очистить выбор файлов
+                        updateFileNames([]); // Обновить отображение (убрать список выбранных файлов)
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+
+            // Добавление новых файлов в список
+            const appendNewFiles = (files) => {
+                files.forEach(file => {
+                    if (!existingFileIds.has(file.id)) {
+                        existingFileIds.add(file.id);
+
+                        const fileRow = document.createElement('div');
+                        fileRow.classList.add('list-file');
+                        fileRow.innerHTML = `
+                    <div class="icon-svg icon-rectangle"></div>
+                    <div class="text-box text-h2 color-E0F2FF">${file.name}</div>
+                    <div class="text-box text-h2 color-E0F2FF">${file.version}</div>
+                    <div class="text-box text-h2 color-E0F2FF">${file.editDate}</div>
+                    <div class="text-box text-h2 color-E0F2FF">${file.author.initials}</div>
+                    <div class="text-box text-h2 color-E0F2FF">${file.size} МБ</div>
+                    <a href="/api/file/download/${file.id}" class="buttom text-h2 color-9ED5FF">Скачать</a>
+                `;
+                        fileListContainer.appendChild(fileRow);
+                    }
+                });
+            };
+        });
+
+
+    </script>
+</head>
+
+<body class="backround">
+<nav class="menu">
+    <nav class="logo-block">
+        <a href="/protected/general">
+            <img src="/svg/logo.svg" alt="Logo">
+        </a>
+    </nav>
+    <div class="line"></div>
+    <nav class="menu_container">
+        <a class="menu__item" href="/file">
+            <div class="menu__item__content">
+                <div class="icon-svg icon-file"></div>
+                <div class="menu__item__text text-style color-E0F2FF">Файлы</div>
+            </div>
+        </a>
+        <a class="menu__item" href="message">
+            <div class="menu__item__content">
+                <div class="icon-svg icon-message"></div>
+                <div class="menu__item__text text-style color-E0F2FF">Сообщения</div>
+            </div>
+        </a>
+    </nav>
+    <nav class="menu__item__low">
+        <a class="menu__item" href="/logout">
+            <div class="menu__item__content">
+                <div class="icon-svg icon-logout"></div>
+                <div class="menu__item__text text-style color-E0F2FF">Выход</div>
+            </div>
+        </a>
+    </nav>
+</nav>
+
+<div class="main-frame">
+    <div class="user">
+        <div class="icon-svg icon-notification"></div>
+        <div class="text-style color-9ED5FF" th:text="${user.getInitials()}"></div>
+    </div>
+    <div class="universal text-h color-9ED5FF">Файлообменник</div>
+    <div class="main-frame-use">
+        <!-- File upload form -->
+        <div class="hat text-style color-9ED5FF">
+            <div class="text-box text-h2 color-E0F2FF"> Имя файла</div>
+            <div class="text-box text-h2 color-E0F2FF"> Версия файла</div>
+            <div class="text-box text-h2 color-E0F2FF"> Дата изменения</div>
+            <div class="text-box text-h2 color-E0F2FF"> Владелец</div>
+            <div class="text-box text-h2 color-E0F2FF"> Размер файла</div>
+            <button class="buttom color-back-1F1F26 text-h2 color-9ED5FF"> Скачать выбранные</button>
+        </div>
+
+        <div class="main-frame-dowland">
+            <div th:each="file : ${files}" class="list-file">
+                <div class="icon-svg icon-rectangle"></div>
+                <div class="text-box text-h2 color-E0F2FF" th:text="${file.name}"></div>
+                <div class="text-box text-h2 color-E0F2FF" th:text="${file.version}"></div>
+                <div class="text-box text-h2 color-E0F2FF" th:text="${file.editDate}"></div>
+                    <div class="text-box text-h2 color-E0F2FF" th:text="${user.getInitials()}"></div>
+                    <div class="text-box text-h2 color-E0F2FF" th:text="${file.getSize() + ' МБ'}"></div>
+
+                    <a th:href="@{/api/file/download/{id}(id=${file.id})}" class="buttom  text-h2 color-9ED5FF">Скачать</a>
+                </div>
+            </div>
+
+
+
+        <form id="file-upload-form" class="zero" enctype="multipart/form-data">
+            <div class="dowland-menu text-style color-9ED5FF" id="drop-area">
+                <input type="file" id="file-input" name="files" multiple hidden>
+                <button type="button" class="dowland-file text-style color-9ED5FF" onclick="document.getElementById('file-input').click();">
+                    Выбрать файл
+                </button>
+            </div>
+            <div id="file-names" class="file-names text-h2 color-9ED5FF"></div>
+            <div class="add">
+                <button id="cancel-button" class="buttom-litl text-h2 color-9ED5FF">Отмена</button>
+                <button id="upload-button" type="button" class="buttom-litl color-back-9ED5FF text-h2 color-1A191F">Загрузить</button>
+            </div>
+        </form>
+
+    </div>
+</div>
 </body>
 </html>
