@@ -419,14 +419,13 @@
             }
 
             function start() {
-                let intervalTime = 5;
+                let intervalTime = 1;
                 let request = setInterval(() => {
                     requestNewMessages(messageId);
                 }, intervalTime * 1000);
             }
 
-            setTimeout(start, 5000);
-
+            setTimeout(start, 1000);
         </script>
     </body>
 </html>

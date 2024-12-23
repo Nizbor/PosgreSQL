@@ -34,7 +34,7 @@ public class ApiMessenger {
         MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
         User authUser = userDetails.getUser();
         User user = userService.getUserById(newUserId);
-        String title = user.getLastName() + " " + user.getFirstName() + (user.getFatherland() == null ? " " : (user.getFatherland()) + " & ") +
+        String title = user.getLastName() + " " + user.getFirstName() + (user.getFatherland() == null ? " & " : (user.getFatherland()) + " & ") +
                 authUser.getLastName() + " " + authUser.getFirstName() + (authUser.getFatherland() == null ? "" : (authUser.getFatherland()));
 
         Chat chat = new Chat();

@@ -61,7 +61,7 @@ public class FileController {
         String filename = storageService.store(file, userDetails.getUser());
 
         File tmpFile = fileService.getFileByName(file.getOriginalFilename());
-        if (tmpFile != null) {
+        if (tmpFile != null && tmpFile.getAuthor() == userDetails.getUser()) {
             fileService.updateVersion(tmpFile.getId(), tmpFile.getVersion() + 1);
             return fileService.getFileByName(file.getOriginalFilename());
         }

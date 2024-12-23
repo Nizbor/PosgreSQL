@@ -64,6 +64,7 @@ public class TestSecurityController {
     public String filePage(Model model, Authentication auth) {
         MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
 
+        model.addAttribute("user", userDetails.getUser());
         model.addAttribute("files", fileService.getAllAvailableFiles(userDetails.getId()));
         return "listFiles";
     }
