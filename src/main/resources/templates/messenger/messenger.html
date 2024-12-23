@@ -6,6 +6,7 @@
         <link rel="stylesheet" th:href="@{/css/donkey.css}">
         <link rel="stylesheet" th:href="@{/css/drake.css}">
         <link rel="stylesheet" th:href="@{/css/icon.css}">
+        <link rel="stylesheet" th:href="@{/css/login.css}">
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&display=swap" rel="stylesheet">
         <title>Messenger</title>
 
@@ -74,7 +75,7 @@
             <div class = "search">
                 <div class="icon-svg icon-loop"></div>
 <!--                -->
-                <input type="text" placeholder="Поиск..." id="search" oninput="filterUsers(this.value)" onfocus="showDropdown()" onblur="hideDropdown()" class="text-style color-9ED5FF">
+                <input type="text" placeholder="Поиск..." id="search" oninput="filterUsers(this.value)" onfocus="showDropdown()" onblur="hideDropdown()" class="input-field text-style color-9ED5FF">
 <!--                -->
                 <div class="icon-svg icon-people_plus"></div>
 <!--                -->
@@ -106,7 +107,7 @@
             <div class="heder">
                 <div class="user">
                     <div class="icon-svg icon-notification"></div>
-                    <div class=" text-style color-9ED5FF" >CURRENT USER</div>
+                    <div class=" text-style color-9ED5FF" th:text ="${user.getInitials()}"></div>
                 </div>
             </div>
 <!-- TEMPLATE HEADER (DO NOT TOUCH) -->
@@ -126,7 +127,7 @@
             </div>
 
             <div class="use-chat-write" style="display: none">
-                <input type="text" class="text-h3 color-9ED5FF" placeholder="Написать сообщение" id="messageInput">
+                <input type="text" class="input-field text-h3 color-9ED5FF" placeholder="Написать сообщение" id="messageInput">
                 <div class="use-write-icon">
                     <div class="icon-svg icon-clip"></div>
                     <div class="icon-svg icon-plane"></div>

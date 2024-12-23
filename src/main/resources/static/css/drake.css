@@ -23,7 +23,7 @@
 
 .heder{
     
-    margin: 30 30 12 10;
+    margin: 30px 30px 12px 10px;
 }
 
 .chat-window{
@@ -49,7 +49,7 @@
     display: flex;
     justify-content: flex-start ; /* Центрирование по горизонтали */
     flex-direction: column ;
-    padding: 10;
+    padding: 10px;
     transition: background 0.3s;
     
 }
@@ -60,21 +60,21 @@
 .text-in{
     text-align: center; /* Центрирование текста по горизонтали */
     display: flex; /* Включаем Flexbox для центровки */
-    padding: 0 0 0 30;
+    padding: 0 0 0 30px;
     align-items: center; /* Центрирование по вертикали */
     white-space: nowrap;
 }
 
 .search{
-    margin: 18 18 18 18;
+    margin: 18px;
     /* Rectangle 13 */
     height: 51px;
     border: 2px solid #E0F2FF; /* Толщина, стиль и цвет обводки */
     border-radius: 8px; /* Закругленные углы (если нужно) */
     display: flex;
     align-items: center;
-    padding: 0 10 0 10;
-    gap: 80px;
+    padding: 0 10px 0 10px;
+    position: relative;
 }
 .use-chat-people{
     flex-grow: 1;
@@ -110,30 +110,49 @@
     height: auto;
     display: flex;
     justify-content: flex-start;
+    margin: 10px 0px;
 }
 
-.message-from{
-
-    width: 107px;
-    height: 56px;
+.message-from {
+    max-width: 50%; /* Ограничиваем ширину сообщения */
     background-color: #1A191F;
     margin-left: auto;
     margin-right: 20px;
     border-radius: 14px 0px 14px 14px;
     display: flex;
     flex-direction: column;
+    padding: 10px; /* Добавляем отступы для текста */
+    word-wrap: break-word; /* Перенос слов на новую строку */
+    box-sizing: border-box; /* Включаем padding в размер блока */
+    position: relative;
 }
-.message-to{
-    max-width: 50%;
-    height: 56px;
+
+.message-to {
+    max-width: 50%; /* Ограничиваем ширину сообщения */
     background-color: #1A191F;
     margin-left: 20px;
     border-radius: 0px 14px 14px 14px;
-    
+    display: flex;
+    flex-direction: column;
+    padding: 10px; /* Добавляем отступы для текста */
+    word-wrap: break-word; /* Перенос слов на новую строку */
+    box-sizing: border-box; /* Включаем padding в размер блока */
+    position: relative;
 }
 
-.time-message{
-    
+.time-message {
+    font-size: 12px; /* Размер шрифта времени */
+    color: #9E9E9E; /* Серый цвет для времени */
+    margin-top: 5px; /* Отступ сверху */
+}
+
+.message-content {
+    margin-bottom: 20px; /* Отступ для времени */
+}
+
+.message-to .time-message {
+    left: 10px; /* Отступ слева для .message-to */
+    right: auto; /* Сбрасываем правый отступ */
 }
 
 .use-chat-write{

@@ -34,7 +34,7 @@ public class MainMessengerController {
         // Getting details of authorized user for next steps
         MyUserDetails userDetails = (MyUserDetails) auth.getPrincipal();
         model.addAttribute("currentUserId", userDetails.getId());
-
+        model.addAttribute("user", userDetails.getUser());
         // Find all users for dropbox and remove from list authorized user
         List<User> users = userService.getAllUsers();
         users.removeIf(user -> Objects.equals(user.getId(), userDetails.getId()));
