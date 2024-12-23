@@ -60,10 +60,10 @@ public class FileController {
         //на сервер грузим
         String filename = storageService.store(file, userDetails.getUser());
 
-        File tmpFile = fileService.getFileByName(file.getOriginalFilename());
-        if (tmpFile != null && tmpFile.getAuthor() == userDetails.getUser()) {
+        File tmpFile = fileService.getFileByNameAndUserId(file.getOriginalFilename(), userDetails.getUser().getId());
+        if (tmpFile != null) {
             fileService.updateVersion(tmpFile.getId(), tmpFile.getVersion() + 1);
-            return fileService.getFileByName(file.getOriginalFilename());
+            return fileService.getFileByNameAndUserId(file.getOriginalFilename(), userDetails.getUser().getId());
         }
         File fileEntity = new File();
         fileEntity.setName(file.getOriginalFilename());

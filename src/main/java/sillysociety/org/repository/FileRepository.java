@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FileRepository extends CrudRepository<File, Integer> {
-    Optional<File> getFileByName(String name);
+    @Query("SELECT f From File AS f WHERE f.name = ?1 AND f.author.id = ?2")
+    @Transactional
+    Optional<File> getFileByNameAndUserId(String name, Integer userId);
 
     @Query("UPDATE File AS f SET f.version = ?2 WHERE f.id = ?1")
     @Transactional

@@ -47,8 +47,8 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File getFileByName(String fileName) {
-        return fileRepository.getFileByName(fileName).orElse(null);
+    public File getFileByNameAndUserId(String fileName, Integer userId) {
+        return fileRepository.getFileByNameAndUserId(fileName, userId).orElse(null);
     }
 
     @Override
