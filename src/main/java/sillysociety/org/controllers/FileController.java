@@ -90,7 +90,6 @@ public class FileController {
                 fileEntities.add(add(file)); // Вызываем метод add() для каждого файла
             } catch (Exception e) {
                 e.printStackTrace();
-                // Добавьте сообщение об ошибке в журнал, чтобы знать, какой файл не загрузился
             }
         }
         return fileEntities;

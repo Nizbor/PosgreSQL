@@ -71,48 +71,36 @@
 
 
         <div class="chat-list">
-<!-- SEARCH BAR NEED TO EDIT -->
             <div class = "search">
                 <div class="icon-svg icon-loop"></div>
-<!--                -->
                 <input type="text" placeholder="Поиск..." id="search" oninput="filterUsers(this.value)" onfocus="showDropdown()" onblur="hideDropdown()" class="input-field text-style color-9ED5FF">
-<!--                -->
                 <div class="icon-svg icon-people_plus"></div>
-<!--                -->
                 <div class="dropdown" id="dropdown">
                     <div th:each="user : ${users}"
                          class="dropdown-item"
                          th:text="${user.firstName + ' ' + user.lastName}"
                          th:onclick="'openChatWithUser(this, \'' + ${user.id} + '\')'"></div>
                 </div>
-<!--                -->
             </div>
 
-<!-- CHATS TAB NEED TO EDIT -->
             <div class="chat-people-conteiner">
-<!--                -->
                 <div th:each="chat: ${chats}" class="chat-people" th:attr="data-id=${chat.id}" onclick="selectChat(this)">
                     <div class = "text-in text-h2 color-9ED5FF" th:text="${chat.title}"></div>
                     <div class = "text-in text-h3 color-E0F2FF" th:text="${#lists.isEmpty(messages.get(chat.id)) ? 'No messages yet' : messages.get(chat.id).get(messages.get(chat.id).size() - 1).textMessage}"></div>
                 </div>
-<!--                -->
             </div>
         </div>
 
 
 
         <div class="chat-window">
-
-<!-- TEMPLATE HEADER (DO NOT TOUCH) -->
             <div class="heder">
                 <div class="user">
                     <div class="icon-svg icon-notification"></div>
                     <div class=" text-style color-9ED5FF" th:text ="${user.getInitials()}"></div>
                 </div>
             </div>
-<!-- TEMPLATE HEADER (DO NOT TOUCH) -->
 
-<!-- CHAT HEADER NEED TO EDIT -->
             <div class="use-chat-header">
                 <div class="text-cont text-h color-9ED5FF">
                     <span>Выберите чат</span>
@@ -121,8 +109,6 @@
             </div>
 
 
-<!-- CHAT HEADER NEED TO EDIT -->
-                
             <div class="use-chat-message">
             </div>
 
